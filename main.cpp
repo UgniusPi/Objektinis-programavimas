@@ -39,11 +39,21 @@ int main() {
     cout << "Iveskite tarpiniu pazymiu skaiciu: ";
     cin >> tarpSk;
     naujasStud.tarp.reserve(tarpSk);
+    
+    int suma = 0;
+    double vid = 0;
     for (int j=0; j<tarpSk; j++) {
         cout << "Iveskite " << j + 1 << " pazymi is " << tarpSk << ": ";
         cin >> tempInt;
         naujasStud.tarp.push_back(tempInt);
-    } 
+        suma += tempInt;
+    }
+    cout << "Iveskite egzamino rezultata: ";
+    cin >> tempInt;
+    naujasStud.egz = tempInt;
+    vid = (double)suma / naujasStud.tarp.size();
+    naujasStud.gal = vid * 0.6 + naujasStud.egz * 0.4;
   }
+    
   return 0;
 }
