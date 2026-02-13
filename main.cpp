@@ -9,63 +9,87 @@ using std::left;
 using std::right;
 using std::setw;
 using std::setprecision;
+using std::fixed;
 
 struct Studentas {
-  string vard;
-  string pav;
-  vector<int> tarp;
-  int egz;
-  double gal;
+    string vard;
+    string pav;
+    vector<int> tarp;
+    int egz;
+    double gal;
 };
 
-int main() {
-  vector<Studentas> studentai;
-  int studSk;
-  
-  cout << "Iveskite studentu skaiciu: ";
-  cin >> studSk;
+void ivestis(vector<Studentas> &studentai);
+void isvestis(vector<Studentas> &studentai);
+void skaicGal(vector<Studentas> &studentai);
 
-  studentai.reserve(studSk);
-  
-  for (int i=0; i<studSk; i++) {
-    Studentas naujasStud;
-    string tempStr;
-    int tempInt;
-    int tarpSk;
+int main() {
+    vector<Studentas> studentai;
     
-    cout << "Iveskite studento varda: ";
-    cin >> tempStr;
-    naujasStud.vard = tempStr;
+    ivestis(studentai);
+    skaicGal(studentai);
+    isvestis(studentai);
     
-    cout << "Iveskite studento pavarde: ";
-    cin >> tempStr;
-    naujasStud.pav = tempStr;
+    return 0;
+}
+
+void ivestis(vector<Studentas> &studentai) {
+    int studSk;
     
-    cout << "Iveskite tarpiniu pazymiu skaiciu: ";
-    cin >> tarpSk;
-    naujasStud.tarp.reserve(tarpSk);
+    cout << "Iveskite studentu skaiciu: ";
+    cin >> studSk;
     
-    int suma = 0;
-    double vid = 0;
-    for (int j=0; j<tarpSk; j++) {
-        cout << "Iveskite " << j + 1 << " pazymi is " << tarpSk << ": ";
+    studentai.reserve(studSk);
+    
+    for (int i=0; i<studSk; i++) {
+        Studentas naujasStud;
+        string tempStr;
+        int tempInt;
+        int tarpSk;
+        
+        cout << "Iveskite studento varda: ";
+        cin >> tempStr;
+        naujasStud.vard = tempStr;
+        
+        cout << "Iveskite studento pavarde: ";
+        cin >> tempStr;
+        naujasStud.pav = tempStr;
+        
+        cout << "Iveskite tarpiniu pazymiu skaiciu: ";
+        cin >> tarpSk;
+        naujasStud.tarp.reserve(tarpSk);
+        for (int j=0; j<tarpSk; j++) {
+            cout << "Iveskite " << j + 1 << " pazymi is " << tarpSk << ": ";
+            cin >> tempInt;
+            naujasStud.tarp.push_back(tempInt);
+        }
+        
+        cout << "Iveskite egzamino rezultata: ";
         cin >> tempInt;
-        naujasStud.tarp.push_back(tempInt);
-        suma += tempInt;
+        naujasStud.egz = tempInt;
+        
+        studentai.push_back(naujasStud);
+    } 
+}
+
+void isvestis(vector<Studentas> &studentai) {
+    cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(10) << "Galutinis (Vid.)" << '\n';
+    cout << "----------------------------------------------------------------------------" << '\n';
+    for (auto stud : studentai) {
+        cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(10) << fixed << setprecision(2) << stud.gal << '\n';
     }
-    cout << "Iveskite egzamino rezultata: ";
-    cin >> tempInt;
-    naujasStud.egz = tempInt;
-    vid = (double)suma / naujasStud.tarp.size();
-    naujasStud.gal = vid * 0.4 + (double)naujasStud.egz * 0.6;
-    studentai.push_back(naujasStud);
-  }
-  
-  cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(10) << "Galutinis (Vid.)" << '\n';
-  cout << "----------------------------------------------------------------------------" << '\n';
-  for (auto stud : studentai) {
-    cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(10) << setprecision(2) << stud.gal << '\n';
-  }
-    
-  return 0;
+}
+
+void skaicGal(vector<Studentas> &studentai) {
+    for (auto &stud : studentai) {
+        int suma = 0;
+        double vid = 0;
+        
+        for (int paz : stud.tarp) {
+            suma += paz;
+        }
+        
+        vid = (double)suma / stud.tarp.size();
+        stud.gal = vid * 0.4 + (double)stud.egz * 0.6;   
+    }
 }
