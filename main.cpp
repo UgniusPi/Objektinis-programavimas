@@ -73,10 +73,10 @@ void ivestis(vector<Studentas> &studentai) {
 }
 
 void isvestis(vector<Studentas> &studentai) {
-    cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(10) << "Galutinis (Vid.)" << '\n';
-    cout << "----------------------------------------------------------------------------" << '\n';
+    cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(20) << "Galutinis (Vid.)" << '\n';
+    cout << "-------------------------------------------------------" << '\n';
     for (auto stud : studentai) {
-        cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(10) << fixed << setprecision(2) << stud.gal << '\n';
+        cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
     }
 }
 
