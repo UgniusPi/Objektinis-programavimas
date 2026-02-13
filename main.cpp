@@ -1,9 +1,14 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
 using std::string;
 using std::vector;
 using std::cout;
 using std::cin;
+using std::left;
+using std::right;
+using std::setw;
+using std::setprecision;
 
 struct Studentas {
   string vard;
@@ -52,7 +57,14 @@ int main() {
     cin >> tempInt;
     naujasStud.egz = tempInt;
     vid = (double)suma / naujasStud.tarp.size();
-    naujasStud.gal = vid * 0.6 + naujasStud.egz * 0.4;
+    naujasStud.gal = vid * 0.4 + (double)naujasStud.egz * 0.6;
+    studentai.push_back(naujasStud);
+  }
+  
+  cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(10) << "Galutinis (Vid.)" << '\n';
+  cout << "----------------------------------------------------------------------------" << '\n';
+  for (auto stud : studentai) {
+    cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(10) << setprecision(2) << stud.gal << '\n';
   }
     
   return 0;
