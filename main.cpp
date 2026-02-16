@@ -29,6 +29,7 @@ void isvestis(vector<Studentas> &studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
 bool isInt(string inp);
 int validInput(string prompt);
+int validRange(int from, int to, string prompt);
 
 int main() {
     vector<Studentas> studentai;
@@ -51,8 +52,6 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
     
     for (int i=0; i<studSk; i++) {
         Studentas naujasStud;
-        string tempStr;
-        int tempInt;
         int tarpSk;
         
         cout << "Iveskite studento varda: ";
@@ -66,7 +65,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
         naujasStud.tarp.reserve(tarpSk);
         for (int j=0; j<tarpSk; j++) {
-            int tarpPaz = validInput("Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
+            int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
             naujasStud.tarp.push_back(tarpPaz);
         }
         
@@ -138,6 +137,7 @@ bool isInt(string inp) {
             return false;   
         }
     }
+    
     return inp.length() != 0;
 }
 
@@ -147,10 +147,19 @@ int validInput(string prompt) {
     cout << prompt;
     getline(cin, inp);
     while (!isInt(inp)) {
-        cout << "Ivesti duomenys turi buti sveikas skaicius! Bandykite is naujo.\n" << prompt;
+        cout << "Ivesti duomenys turi buti naturalusis skaicius! Bandykite is naujo.\n" << prompt;
         getline(cin, inp);
-        cout << inp;
     }
     
     return stoi(inp);
+}
+
+int validRange(int from, int to, string prompt) {
+    int inp = validInput(prompt);
+    while (inp < from || inp > to) {
+        cout << "Ivestas skaicius turi buti nuo " << from << " iki " << to << "! Bandykite is naujo.\n";
+        inp = validInput(prompt);
+    }
+    
+    return inp;
 }
