@@ -78,7 +78,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
     cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
     cout << "Jeigu norite skaiciuoti naudojant vidurki, iveskite 1.\n";
     cout << "Jeigu norite skaiciuoti naudojant mediana, iveskite 2.\n";
-    pasirink = validInput("Pasirinkimas: ");
+    pasirink = validRange(1, 2, "Pasirinkimas: ");
     cout << '\n';
 }
 
@@ -107,25 +107,29 @@ void skaicGal(vector<Studentas> &studentai, int pasirink) {
                 suma += paz;
             }
             
-            vid = (double)suma / stud.tarp.size();
+            if (stud.tarp.size() != 0) {
+                vid = (double)suma / stud.tarp.size();   
+            }
             stud.gal = vid * 0.4 + (double)stud.egz * 0.6;   
         }
     }
     else if (pasirink == 2) {
         for (auto &stud : studentai) {
-            double med;
+            double med = 0;
             
-            sort(stud.tarp.begin(),stud.tarp.end());
+            if (stud.tarp.size() != 0) {
+                sort(stud.tarp.begin(),stud.tarp.end());
+                
+                int medIndex;
+                medIndex = stud.tarp.size() / 2;
+                if (stud.tarp.size() % 2 == 1) {
+                    med = stud.tarp[medIndex];
+                }
+                else {
+                    med = (double)(stud.tarp[medIndex] + stud.tarp[medIndex - 1]) / 2;
+                }
+            }
             
-            int medIndex;
-            medIndex = stud.tarp.size() / 2;
-            if (stud.tarp.size() % 2 == 1) {
-                med = stud.tarp[medIndex];
-            }
-            else {
-                med = (double)(stud.tarp[medIndex] + stud.tarp[medIndex - 1]) / 2;
-            }
-
             stud.gal = med * 0.4 + (double)stud.egz * 0.6;   
         }   
     }
