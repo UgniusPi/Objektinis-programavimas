@@ -2,6 +2,7 @@
 #include <vector>
 #include <iomanip>
 #include <algorithm>
+#include <string>
 using std::string;
 using std::vector;
 using std::cout;
@@ -11,6 +12,9 @@ using std::right;
 using std::setw;
 using std::setprecision;
 using std::fixed;
+using std::stoi;
+using std::getline;
+using std::to_string;
 
 struct Studentas {
     string vard;
@@ -23,6 +27,8 @@ struct Studentas {
 void ivestis(vector<Studentas> &studentai, int &pasirink);
 void isvestis(vector<Studentas> &studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
+bool isInt(string inp);
+int validInput(string prompt);
 
 int main() {
     vector<Studentas> studentai;
@@ -36,10 +42,10 @@ int main() {
 }
 
 void ivestis(vector<Studentas> &studentai, int &pasirink) {
+    string inp;
     int studSk;
     
-    cout << "Iveskite studentu skaiciu: ";
-    cin >> studSk;
+    studSk = validInput("Iveskite studentu skaiciu: ");
     studentai.reserve(studSk);
     cout << '\n';
     
@@ -50,25 +56,21 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         int tarpSk;
         
         cout << "Iveskite studento varda: ";
-        cin >> tempStr;
-        naujasStud.vard = tempStr;
+        getline(cin, inp);
+        naujasStud.vard = inp;
         
         cout << "Iveskite studento pavarde: ";
-        cin >> tempStr;
-        naujasStud.pav = tempStr;
+        getline(cin, inp);
+        naujasStud.pav = inp;
         
-        cout << "Iveskite tarpiniu pazymiu skaiciu: ";
-        cin >> tarpSk;
+        tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
         naujasStud.tarp.reserve(tarpSk);
         for (int j=0; j<tarpSk; j++) {
-            cout << "Iveskite " << j + 1 << " pazymi is " << tarpSk << ": ";
-            cin >> tempInt;
-            naujasStud.tarp.push_back(tempInt);
+            int tarpPaz = validInput("Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
+            naujasStud.tarp.push_back(tarpPaz);
         }
         
-        cout << "Iveskite egzamino rezultata: ";
-        cin >> tempInt;
-        naujasStud.egz = tempInt;
+        naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
         cout << '\n';
         
         studentai.push_back(naujasStud);
@@ -77,8 +79,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
     cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
     cout << "Jeigu norite skaiciuoti naudojant vidurki, iveskite 1.\n";
     cout << "Jeigu norite skaiciuoti naudojant mediana, iveskite 2.\n";
-    cout << "Pasirinkimas: ";
-    cin >> pasirink;
+    pasirink = validInput("Pasirinkimas: ");
     cout << '\n';
 }
 
@@ -129,4 +130,27 @@ void skaicGal(vector<Studentas> &studentai, int pasirink) {
             stud.gal = med * 0.4 + (double)stud.egz * 0.6;   
         }   
     }
+}
+
+bool isInt(string inp) {
+    for (int i=0; i<inp.length(); i++) {
+        if (!isdigit(inp[i])) {
+            return false;   
+        }
+    }
+    return inp.length() != 0;
+}
+
+int validInput(string prompt) {
+    string inp;
+    
+    cout << prompt;
+    getline(cin, inp);
+    while (!isInt(inp)) {
+        cout << "Ivesti duomenys turi buti sveikas skaicius! Bandykite is naujo.\n" << prompt;
+        getline(cin, inp);
+        cout << inp;
+    }
+    
+    return stoi(inp);
 }
