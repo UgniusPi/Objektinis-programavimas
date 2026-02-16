@@ -40,8 +40,8 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
     
     cout << "Iveskite studentu skaiciu: ";
     cin >> studSk;
-    
     studentai.reserve(studSk);
+    cout << '\n';
     
     for (int i=0; i<studSk; i++) {
         Studentas naujasStud;
@@ -69,6 +69,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         cout << "Iveskite egzamino rezultata: ";
         cin >> tempInt;
         naujasStud.egz = tempInt;
+        cout << '\n';
         
         studentai.push_back(naujasStud);
     } 
@@ -78,6 +79,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
     cout << "Jeigu norite skaiciuoti naudojant mediana, iveskite 2.\n";
     cout << "Pasirinkimas: ";
     cin >> pasirink;
+    cout << '\n';
 }
 
 void isvestis(vector<Studentas> &studentai, int pasirink) {
