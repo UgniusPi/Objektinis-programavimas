@@ -30,6 +30,7 @@ void skaicGal(vector<Studentas> &studentai, int pasirink);
 bool isInt(string inp);
 int validInput(string prompt);
 int validRange(int from, int to, string prompt);
+string validLength(int maxLength, string prompt);
 
 int main() {
     vector<Studentas> studentai;
@@ -163,6 +164,20 @@ int validRange(int from, int to, string prompt) {
     while (inp < from || inp > to) {
         cout << "Ivestas skaicius turi buti nuo " << from << " iki " << to << "! Bandykite is naujo.\n";
         inp = validInput(prompt);
+    }
+    
+    return inp;
+}
+
+string validLength(int maxLength, string prompt) {
+    string inp;
+    
+    cout << prompt;
+    getline(cin, inp);
+    while (inp.length() > maxLength) {
+        cout << "Ivestas tekstas virsija " + to_string(maxLength) + " simboliu limita! Bandykite is naujo.\n";
+        cout << prompt;
+        getline(cin, inp);    
     }
     
     return inp;
