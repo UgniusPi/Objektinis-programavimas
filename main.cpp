@@ -35,7 +35,7 @@ int validInput(string prompt);
 int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
 bool validBool(string prompt);
-string strLower(string &word);
+string strLower(string word);
 
 int main() {
     srand(time(0));
@@ -63,8 +63,8 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         Studentas naujasStud;
         int tarpSk;
         
-        naujasStud.vard = validLength(15, "Iveskite studento varda (iki 15 raidziu): ");
-        naujasStud.pav = validLength(20, "Iveskite studento pavarde (iki 20 raidziu): ");
+        naujasStud.vard = validLength(15, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento varda (iki 15 raidziu): ");
+        naujasStud.pav = validLength(20, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento pavarde (iki 20 raidziu): ");
         
         if (rndPaz) {
             tarpSk = rand() % 16;
@@ -73,11 +73,11 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
             for (int j=0; j<tarpSk; j++) {
                 int tarpPaz = rand() % 11;
                 naujasStud.tarp.push_back(tarpPaz);
-                cout << right << setw(3) << tarpPaz;
+                cout << tarpPaz << " ";
             }
             
             naujasStud.egz = rand() % 11;
-            cout << '\n' << right << setw(3) << naujasStud.egz << "\n\n";
+            cout << '\n' << naujasStud.egz << "\n\n";
         }
         else {
             tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
@@ -220,7 +220,7 @@ bool validBool(string prompt) {
     return strLower(inp) == "ne";
 }
 
-string strLower(string &word) {
+string strLower(string word) {
     for (char &c : word) {
         c = tolower(c);
     }
