@@ -3,6 +3,9 @@
 #include <iomanip>
 #include <algorithm>
 #include <string>
+#include <cstdlib>
+#include <ctime>
+
 using std::string;
 using std::vector;
 using std::cout;
@@ -31,8 +34,11 @@ bool isInt(string inp);
 int validInput(string prompt);
 int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
+bool validBool(string prompt);
+string strLower(string &word);
 
 int main() {
+    srand(time(0));
     vector<Studentas> studentai;
     int pasirink;
     
@@ -46,7 +52,9 @@ int main() {
 void ivestis(vector<Studentas> &studentai, int &pasirink) {
     string inp;
     int studSk;
+    bool rndPaz;
     
+    rndPaz = validBool("Ar norite patys ivesti studentu pazymius? Iveskite 'taip' arba 'ne': ");
     studSk = validInput("Iveskite studentu skaiciu: ");
     studentai.reserve(studSk);
     cout << '\n';
@@ -180,4 +188,27 @@ string validLength(int maxLength, string prompt) {
     }
     
     return inp;
+}
+
+bool validBool(string prompt) {
+    string inp;
+    
+    cout << prompt;
+    getline(cin, inp);
+    
+    while (strLower(inp) != "taip" && strLower(inp) != "ne") {
+        cout << "Ivesti duomenys nera nei 'taip', nei 'ne'. Bandykite is naujo.\n";
+        cout << prompt;
+        getline(cin, inp);
+    }
+    
+    return strLower(inp) == "taip";
+}
+
+string strLower(string &word) {
+    for (char &c : word) {
+        c = tolower(c);
+    }
+
+    return word;
 }
