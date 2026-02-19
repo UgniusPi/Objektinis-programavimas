@@ -55,13 +55,8 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         Studentas naujasStud;
         int tarpSk;
         
-        cout << "Iveskite studento varda: ";
-        getline(cin, inp);
-        naujasStud.vard = inp;
-        
-        cout << "Iveskite studento pavarde: ";
-        getline(cin, inp);
-        naujasStud.pav = inp;
+        naujasStud.vard = validLength(15, "Iveskite studento varda (iki 15 raidziu): ");
+        naujasStud.pav = validLength(20, "Iveskite studento pavarde (iki 20 raidziu): ");
         
         tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
         naujasStud.tarp.reserve(tarpSk);
@@ -91,10 +86,10 @@ void isvestis(vector<Studentas> &studentai, int pasirink) {
     else {
         galTekstas = "Galutinis (Med.)";
     }
-    cout << left << setw(20) << "Pavarde" << left << setw(15) << "Vardas" << left << setw(20) << galTekstas << '\n';
-    cout << "-------------------------------------------------------" << '\n';
+    cout << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
+    cout << "---------------------------------------------------------" << '\n';
     for (auto stud : studentai) {
-        cout << left << setw(20) << stud.pav << left << setw(15) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+        cout << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
     }
 }
 
@@ -152,7 +147,7 @@ int validInput(string prompt) {
     cout << prompt;
     getline(cin, inp);
     while (!isInt(inp)) {
-        cout << "Ivesti duomenys turi buti naturalusis skaicius! Bandykite is naujo.\n" << prompt;
+        cout << "Ivesti duomenys turi buti sveikasis neneigiamas skaicius! Bandykite is naujo.\n" << prompt;
         getline(cin, inp);
     }
     
@@ -175,9 +170,13 @@ string validLength(int maxLength, string prompt) {
     cout << prompt;
     getline(cin, inp);
     while (inp.length() > maxLength) {
-        cout << "Ivestas tekstas virsija " + to_string(maxLength) + " simboliu limita! Bandykite is naujo.\n";
+        cout << "Ivestas tekstas virsija " + to_string(maxLength) + " raidziu limita! Bandykite is naujo.\n";
         cout << prompt;
         getline(cin, inp);    
+    }
+    
+    if (inp.length() == 0) {
+        inp = "Nenurodyta";    
     }
     
     return inp;
