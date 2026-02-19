@@ -66,15 +66,30 @@ void ivestis(vector<Studentas> &studentai, int &pasirink) {
         naujasStud.vard = validLength(15, "Iveskite studento varda (iki 15 raidziu): ");
         naujasStud.pav = validLength(20, "Iveskite studento pavarde (iki 20 raidziu): ");
         
-        tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
-        naujasStud.tarp.reserve(tarpSk);
-        for (int j=0; j<tarpSk; j++) {
-            int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
-            naujasStud.tarp.push_back(tarpPaz);
+        if (rndPaz) {
+            tarpSk = rand() % 16;
+            cout << "Automatiskai sugeneruoti tarpiniai pazymiai ir egzamino rezultatas:\n";
+            naujasStud.tarp.reserve(tarpSk);
+            for (int j=0; j<tarpSk; j++) {
+                int tarpPaz = rand() % 11;
+                naujasStud.tarp.push_back(tarpPaz);
+                cout << right << setw(3) << tarpPaz;
+            }
+            
+            naujasStud.egz = rand() % 11;
+            cout << '\n' << right << setw(3) << naujasStud.egz << "\n\n";
         }
-        
-        naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
-        cout << '\n';
+        else {
+            tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
+            naujasStud.tarp.reserve(tarpSk);
+            for (int j=0; j<tarpSk; j++) {
+                int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
+                naujasStud.tarp.push_back(tarpPaz);
+            }
+            
+            naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
+            cout << '\n';
+        }
         
         studentai.push_back(naujasStud);
     } 
@@ -202,7 +217,7 @@ bool validBool(string prompt) {
         getline(cin, inp);
     }
     
-    return strLower(inp) == "taip";
+    return strLower(inp) == "ne";
 }
 
 string strLower(string &word) {
