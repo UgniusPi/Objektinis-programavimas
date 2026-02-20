@@ -51,7 +51,7 @@ int main() {
         isvestis(studentai, pasirink);
     }
     
-    cout << "Programa sekmingai isjungta.";
+    cout << "Programa sekmingai uzsidare.";
     return 0;
 }
 
@@ -79,7 +79,6 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
     }
     
     studSk = validInput("Iveskite studentu skaiciu: ");
-    studentai.reserve(studSk);
     cout << '\n';
     
     while (true) {
@@ -91,7 +90,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
                 naujasStud.vard = rndVardas(4, 10);
                 naujasStud.pav = rndVardas(6, 12);
                 cout << "Automatiskai sugeneruoto " << to_string(i + 1) << " is " << to_string(studSk) << " studento vardas ir pavarde:\n";
-                cout << left << setw(16) << naujasStud.vard << left << setw(21) << naujasStud.pav << '\n';
+                cout << left << setw(16) << naujasStud.vard << left << setw(20) << naujasStud.pav << '\n';
             }
             else {
                 naujasStud.vard = validLength(15, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento varda (iki 15 raidziu): ");
@@ -135,7 +134,7 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
     cout << "1. Naudojant vidurki.\n";
     cout << "2. Naudojant mediana.\n";
     pasirink = validRange(1, 2, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n\n";
 }
 
 void isvestis(vector<Studentas> &studentai, int pasirink) {
@@ -155,7 +154,7 @@ void isvestis(vector<Studentas> &studentai, int pasirink) {
         cout << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
     
     }
-    cout << '\n';
+    cout << "\n\n";
 }
 
 void skaicGal(vector<Studentas> &studentai, int pasirink) {
@@ -248,15 +247,12 @@ string validLength(int maxLength, string prompt) {
 }
 
 string rndVardas(int from, int to) {
-    int raidSk;
-    
-    raidSk = rand() % (to - from + 1) + from;
     string vard;
-    vard.reserve(raidSk);
-    
-    vard.push_back((char)(rand() % 26 + 65));
+    int raidSk = rand() % (to - from + 1) + from;
+
+    vard += (char)(rand() % 26 + 65);
     for (int i=1; i<raidSk; i++) {
-        vard.push_back((char)(rand() % 26 + 97));
+        vard += (char)(rand() % 26 + 97);
     }
     
     return vard;
