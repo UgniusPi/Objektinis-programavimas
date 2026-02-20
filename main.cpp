@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <cctype>
 
 using std::string;
 using std::vector;
