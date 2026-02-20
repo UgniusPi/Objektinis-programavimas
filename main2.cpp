@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <cctype>
 
 using std::string;
 using std::cout;
@@ -16,6 +17,7 @@ using std::fixed;
 using std::stoi;
 using std::getline;
 using std::to_string;
+using std::sort;
 
 struct Studentas {
     string vard;
@@ -26,7 +28,7 @@ struct Studentas {
     double gal;
 };
 
-void ivestis(Studentas* studentai, int &studSk, int &pasirink, bool &testi);
+void ivestis(Studentas* &studentai, int &studSk, int &pasirink, bool &testi);
 void isvestis(Studentas* studentai, int studSk, int pasirink);
 void skaicGal(Studentas* studentai, int studSk, int pasirink);
 bool isInt(string inp);
@@ -34,6 +36,7 @@ int validInput(string prompt);
 int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
+void istrint(Studentas* studentai, int studSk);
 
 int main() {
     srand(time(0));
@@ -41,21 +44,21 @@ int main() {
     
     while (true) {
         Studentas* studentai = nullptr;
-        int studSk = 0;
-        int pasirink;
+        int studSk = 0, pasirink;
         
         ivestis(studentai, studSk, pasirink, testi);
         if (!testi) break;
         
         skaicGal(studentai, studSk, pasirink);
         isvestis(studentai, studSk, pasirink);
+        istrint(studentai, studSk);
     }
     
     cout << "Programa sekmingai uzsidare.";
     return 0;
 }
 
-void ivestis(Studentas* studentai, int &studSk, int &pasirink, bool &testi) {
+void ivestis(Studentas* &studentai, int &studSk, int &pasirink, bool &testi) {
     int tempStudSk, eiga;
     bool rndPaz = false, rndVard = false;
     cout << "Pasirinkite programos eiga.\n";
@@ -84,8 +87,13 @@ void ivestis(Studentas* studentai, int &studSk, int &pasirink, bool &testi) {
     while (true) {
         Studentas* tempStudentai = new Studentas[studSk + tempStudSk];
         for (int i=0; i<studSk; i++) {
-            tempStudentai[i] = studentai[i];    
+            tempStudentai[i] = studentai[i];
+            tempStudentai[i].tarp = new int[studentai[i].tarpSk];
+            for (int j=0; j<studentai[i].tarpSk; j++) {
+                tempStudentai[i].tarp[j] = studentai[i].tarp[j];
+            }
         }
+        istrint(studentai, studSk); 
         
         for (int i=studSk; i<studSk+tempStudSk; i++) {
             Studentas naujasStud;
@@ -128,9 +136,10 @@ void ivestis(Studentas* studentai, int &studSk, int &pasirink, bool &testi) {
             }
             naujasStud.tarpSk = tarpSk;
             
-            studentai[i] = naujasStud;
+            tempStudentai[i] = naujasStud;
         } 
         studSk += tempStudSk;
+        studentai = tempStudentai;
         
         tempStudSk = validInput("Iveskite papildomu studentu skaiciu (jei nenorite prideti studentu, iveskite 0): ");
         cout << '\n';
@@ -184,7 +193,7 @@ void skaicGal(Studentas* studentai, int studSk, int pasirink) {
             double med = 0;
             
             if (studentai[i].tarpSk != 0) {
-   //to do             sort(stud.tarp.begin(),stud.tarp.end());
+                sort(studentai[i].tarp, studentai[i].tarp + studentai[i].tarpSk);
                 
                 int medIndex;
                 medIndex = studentai[i].tarpSk / 2;
@@ -262,4 +271,11 @@ string rndVardas(int from, int to) {
     }
     
     return vard;
+}
+
+void istrint(Studentas* studentai, int studSk) {
+    for (int i=0; i<studSk; i++) {
+        delete[] studentai[i].tarp;    
+    }
+    delete[] studentai;
 }
