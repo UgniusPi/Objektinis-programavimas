@@ -100,7 +100,6 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
             if (rndPaz) {
                 tarpSk = rand() % 16;
                 cout << "Automatiskai sugeneruoti tarpiniai pazymiai ir egzamino rezultatas:\n";
-                naujasStud.tarp.reserve(tarpSk);
                 for (int j=0; j<tarpSk; j++) {
                     int tarpPaz = rand() % 11;
                     naujasStud.tarp.push_back(tarpPaz);
