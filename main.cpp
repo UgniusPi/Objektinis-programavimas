@@ -39,6 +39,7 @@ string rndVardas(int from, int to);
 int main() {
     srand(time(0));
     bool testi = true;
+    
     while (true) {
         vector<Studentas> studentai;
         int pasirink;
@@ -81,50 +82,58 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
     studentai.reserve(studSk);
     cout << '\n';
     
-    for (int i=0; i<studSk; i++) {
-        Studentas naujasStud;
-        int tarpSk;
-        
-        if (rndVard) {
-            naujasStud.vard = rndVardas(4, 10);
-            naujasStud.pav = rndVardas(6, 12);
-        }
-        else {
-            naujasStud.vard = validLength(15, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento varda (iki 15 raidziu): ");
-            naujasStud.pav = validLength(20, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento pavarde (iki 20 raidziu): ");
-        }
-
-        if (rndPaz) {
-            tarpSk = rand() % 16;
-            cout << "Automatiskai sugeneruoti tarpiniai pazymiai ir egzamino rezultatas:\n";
-            naujasStud.tarp.reserve(tarpSk);
-            for (int j=0; j<tarpSk; j++) {
-                int tarpPaz = rand() % 11;
-                naujasStud.tarp.push_back(tarpPaz);
-                cout << tarpPaz << " ";
+    while (true) {
+        for (int i=0; i<studSk; i++) {
+            Studentas naujasStud;
+            int tarpSk;
+            
+            if (rndVard) {
+                naujasStud.vard = rndVardas(4, 10);
+                naujasStud.pav = rndVardas(6, 12);
+                cout << "Automatiskai sugeneruoto " << to_string(i + 1) << " is " << to_string(studSk) << " studento vardas ir pavarde:\n";
+                cout << left << setw(16) << naujasStud.vard << left << setw(21) << naujasStud.pav << '\n';
+            }
+            else {
+                naujasStud.vard = validLength(15, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento varda (iki 15 raidziu): ");
+                naujasStud.pav = validLength(20, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento pavarde (iki 20 raidziu): ");
+            }
+    
+            if (rndPaz) {
+                tarpSk = rand() % 16;
+                cout << "Automatiskai sugeneruoti tarpiniai pazymiai ir egzamino rezultatas:\n";
+                naujasStud.tarp.reserve(tarpSk);
+                for (int j=0; j<tarpSk; j++) {
+                    int tarpPaz = rand() % 11;
+                    naujasStud.tarp.push_back(tarpPaz);
+                    cout << tarpPaz << " ";
+                }
+                
+                naujasStud.egz = rand() % 11;
+                cout << '\n' << naujasStud.egz << "\n\n";
+            }
+            else {
+                tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
+                naujasStud.tarp.reserve(tarpSk);
+                for (int j=0; j<tarpSk; j++) {
+                    int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
+                    naujasStud.tarp.push_back(tarpPaz);
+                }
+                
+                naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
+                cout << '\n';
             }
             
-            naujasStud.egz = rand() % 11;
-            cout << '\n' << naujasStud.egz << "\n\n";
-        }
-        else {
-            tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
-            naujasStud.tarp.reserve(tarpSk);
-            for (int j=0; j<tarpSk; j++) {
-                int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
-                naujasStud.tarp.push_back(tarpPaz);
-            }
-            
-            naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
-            cout << '\n';
-        }
+            studentai.push_back(naujasStud);
+        } 
         
-        studentai.push_back(naujasStud);
-    } 
+        studSk = validInput("Iveskite papildomu studentu skaiciu (jei nenorite prideti studentu, iveskite 0): ");
+        cout << '\n';
+        if (studSk == 0) break;
+    }
     
     cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
     cout << "1. Naudojant vidurki.\n";
-    cout << "2. Naudojant mediana, iveskite\n";
+    cout << "2. Naudojant mediana.\n";
     pasirink = validRange(1, 2, "Pasirinkimas: ");
     cout << '\n';
 }
@@ -175,10 +184,10 @@ void skaicGal(vector<Studentas> &studentai, int pasirink) {
                 int medIndex;
                 medIndex = stud.tarp.size() / 2;
                 if (stud.tarp.size() % 2 == 1) {
-                    med = stud.tarp[medIndex];
+                    med = stud.tarp.at(medIndex);
                 }
                 else {
-                    med = (double)(stud.tarp[medIndex] + stud.tarp[medIndex - 1]) / 2;
+                    med = (double)(stud.tarp.at(medIndex) + stud.tarp.at(medIndex - 1)) / 2;
                 }
             }
             
@@ -242,11 +251,12 @@ string rndVardas(int from, int to) {
     int raidSk;
     
     raidSk = rand() % (to - from + 1) + from;
-    string vard(raidSk, ' ');  
+    string vard;
+    vard.reserve(raidSk);
     
-    vard[0] = (char)(rand() % 26 + 65);
+    vard.push_back((char)(rand() % 26 + 65));
     for (int i=1; i<raidSk; i++) {
-        vard[i] = (char)(rand() % 26 + 97);
+        vard.push_back((char)(rand() % 26 + 97));
     }
     
     return vard;
