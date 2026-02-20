@@ -112,7 +112,6 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
             }
             else {
                 tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
-                naujasStud.tarp.reserve(tarpSk);
                 for (int j=0; j<tarpSk; j++) {
                     int tarpPaz = validRange(0, 10, "Iveskite " + to_string(j + 1) + " pazymi is " + to_string(tarpSk) + ": ");
                     naujasStud.tarp.push_back(tarpPaz);
