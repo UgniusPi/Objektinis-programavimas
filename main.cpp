@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cctype>
+#include <fstream>
 
 using std::string;
 using std::vector;
@@ -19,6 +20,7 @@ using std::fixed;
 using std::stoi;
 using std::getline;
 using std::to_string;
+using std::ifstream;
 
 struct Studentas {
     string vard;
@@ -28,7 +30,8 @@ struct Studentas {
     double gal;
 };
 
-void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi);
+void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
+void ivestIsFailo(vector<Studentas> &studentai);
 void isvestis(vector<Studentas> &studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
 bool isInt(string inp);
@@ -36,17 +39,25 @@ int validInput(string prompt);
 int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
+void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard);
 
 int main() {
     srand(time(0));
-    bool testi = true;
     
     while (true) {
         vector<Studentas> studentai;
-        int pasirink;
+        int pasirink, ivestSaltinis, isvestVieta, rusBudas;
+        bool testi, rndPaz, rndVard;
         
-        ivestis(studentai, pasirink, testi);
+        klauskEigos(testi, ivestSaltinis, isvestVieta, pasirink, rusBudas, rndPaz, rndVard);
         if (!testi) break;
+
+        if (ivestSaltinis == 1) {
+            ivestEkr(studentai, rndPaz, rndVard);
+        } 
+        else {
+            ivestIsFailo(studentai);
+        }
         
         skaicGal(studentai, pasirink);
         isvestis(studentai, pasirink);
@@ -56,30 +67,8 @@ int main() {
     return 0;
 }
 
-void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
-    int studSk, eiga;
-    bool rndPaz = false, rndVard = false;
-    cout << "Pasirinkite programos eiga.\n";
-    cout << "1. Visus studentu duomenis ivesti ranka.\n";
-    cout << "2. Automatiskai generuoti studentu pazymius.\n";
-    cout << "3. Automatiskai generuoti studentu vardus, pavardes ir pazymius.\n";
-    cout << "4. Baigti darba.\n";
-    eiga = validRange(1, 4, "Pasirinkimas: ");
-    cout << '\n';
-    
-    if (eiga == 2) {
-        rndPaz = true;    
-    }
-    else if (eiga == 3) {
-        rndPaz = true;
-        rndVard = true;
-    }
-    else if (eiga == 4) {
-        testi = false;
-        return;
-    }
-    
-    studSk = validInput("Iveskite studentu skaiciu: ");
+void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
+    int studSk = validInput("Iveskite studentu skaiciu: ");
     cout << '\n';
     
     while (true) {
@@ -128,12 +117,6 @@ void ivestis(vector<Studentas> &studentai, int &pasirink, bool &testi) {
         cout << '\n';
         if (studSk == 0) break;
     }
-    
-    cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
-    cout << "1. Naudojant vidurki.\n";
-    cout << "2. Naudojant mediana.\n";
-    pasirink = validRange(1, 2, "Pasirinkimas: ");
-    cout << "\n\n";
 }
 
 void isvestis(vector<Studentas> &studentai, int pasirink) {
@@ -255,4 +238,60 @@ string rndVardas(int from, int to) {
     }
     
     return vard;
+}
+
+void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard) {
+    int eiga;
+    testi = true;
+    rndPaz = false;
+    rndVard = false;
+    ivestSaltinis = 1;
+    cout << "Pasirinkite programos eiga.\n";
+    cout << "1. Studentu duomenis skaityti is failo.\n";
+    cout << "2. Visus studentu duomenis ivesti ranka.\n";
+    cout << "3. Automatiskai generuoti studentu pazymius.\n";
+    cout << "4. Automatiskai generuoti studentu vardus, pavardes ir pazymius.\n";
+    cout << "5. Baigti darba.\n";
+    eiga = validRange(1, 5, "Pasirinkimas: ");
+    cout << '\n';
+    
+    if (eiga == 1) {
+        ivestSaltinis = 2;
+    }
+    else if (eiga == 3) {
+        rndPaz = true;   
+    }
+    else if (eiga == 4) {
+        rndPaz = true;
+        rndVard = true;
+    }
+    else if (eiga == 5) {
+        testi = false;
+        return;
+    }
+
+    cout << "Pasirinkite isvesties buda.\n";
+    cout << "1. Isvesti i ekrana.\n";
+    cout << "2. Issaugoti i faila.\n";
+    isvestVieta = validRange(1, 2, "Pasirinkimas: ");
+    cout << '\n';
+
+    cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
+    cout << "1. Naudojant vidurki.\n";
+    cout << "2. Naudojant mediana.\n";
+    pasirink = validRange(1, 2, "Pasirinkimas: ");
+    cout << '\n';
+
+    cout << "Pasirinkite studentu rusiavimo kriteriju.\n";
+    cout << "1. Vardas\n";
+    cout << "2. Pavarde\n";
+    cout << "3. Galutinis balas\n";
+    rusBudas = validRange(1, 3, "Pasirinkimas: ");
+    cout << '\n';
+
+    return;
+}
+
+void ivestIsFailo(vector<Studentas> &studentai) {
+
 }

@@ -1,0 +1,4 @@
+Vardas                   Pavarde                    ND1       ND2       ND3       ND4       ND5       Egz.
+Vardas1                 Pavarde1                      3        10         8         1         7          2
+Vardas2                 Pavarde2                      9         8         4         6         3          7
+Vardas3                 Pavarde3                      8        10         9         8        10          8
