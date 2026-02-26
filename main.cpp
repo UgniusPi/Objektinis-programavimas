@@ -7,6 +7,7 @@
 #include <ctime>
 #include <cctype>
 #include <fstream>
+#include <sstream>
 
 using std::string;
 using std::vector;
@@ -21,6 +22,7 @@ using std::stoi;
 using std::getline;
 using std::to_string;
 using std::ifstream;
+using std::stringstream;
 
 struct Studentas {
     string vard;
@@ -246,6 +248,7 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
     rndPaz = false;
     rndVard = false;
     ivestSaltinis = 1;
+
     cout << "Pasirinkite programos eiga.\n";
     cout << "1. Studentu duomenis skaityti is failo.\n";
     cout << "2. Visus studentu duomenis ivesti ranka.\n";
@@ -293,5 +296,26 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
 }
 
 void ivestIsFailo(vector<Studentas> &studentai) {
+    ifstream file("kursiokai.txt");
+    string line;
 
+    getline(file, line);
+    while (getline(file, line)) {
+        Studentas naujasStud;
+        stringstream ss(line);
+
+        ss >> naujasStud.vard >> naujasStud.pav;
+
+        vector<int> visiPaz;
+        int tmpPaz;
+        while (ss >> tmpPaz) {
+            visiPaz.push_back(tmpPaz);
+        }
+
+        naujasStud.egz = visiPaz.back();
+        visiPaz.pop_back();
+        naujasStud.tarp = visiPaz;
+
+        studentai.push_back(naujasStud);
+    }
 }
