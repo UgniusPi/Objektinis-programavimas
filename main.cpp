@@ -22,6 +22,7 @@ using std::stoi;
 using std::getline;
 using std::to_string;
 using std::ifstream;
+using std::ofstream;
 using std::stringstream;
 
 struct Studentas {
@@ -34,7 +35,8 @@ struct Studentas {
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
 void ivestIsFailo(vector<Studentas> &studentai);
-void isvestis(vector<Studentas> &studentai, int pasirink);
+void isvestEkr(vector<Studentas> studentai, int pasirink);
+void isvestIFaila(vector<Studentas> studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
 bool isInt(string inp);
 int validInput(string prompt);
@@ -42,6 +44,7 @@ int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
 void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard);
+void rusiuok(vector<Studentas> &studentai, int rusBudas);
 
 int main() {
     srand(time(0));
@@ -56,13 +59,22 @@ int main() {
 
         if (ivestSaltinis == 1) {
             ivestEkr(studentai, rndPaz, rndVard);
-        } 
+        }
         else {
             ivestIsFailo(studentai);
         }
+            
         
         skaicGal(studentai, pasirink);
-        isvestis(studentai, pasirink);
+
+        rusiuok(studentai, rusBudas);
+
+        if (isvestVieta == 1) {
+            isvestEkr(studentai, pasirink);
+        }
+        else {
+            isvestIFaila(studentai, pasirink);
+        }
     }
     
     cout << "Programa sekmingai uzsidare.";
@@ -121,7 +133,7 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     }
 }
 
-void isvestis(vector<Studentas> &studentai, int pasirink) {
+void isvestEkr(vector<Studentas> studentai, int pasirink) {
     string galTekstas;
     
     if (pasirink == 1) {
@@ -318,4 +330,40 @@ void ivestIsFailo(vector<Studentas> &studentai) {
 
         studentai.push_back(naujasStud);
     }
+}
+
+void isvestIFaila(vector<Studentas> studentai, int pasirink) {
+    ofstream file("isvestis.txt");
+    string galTekstas;
+    
+    if (pasirink == 1) {
+        galTekstas = "Galutinis (Vid.)";
+    }
+    else {
+        galTekstas = "Galutinis (Med.)";
+    }
+    
+    file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
+    file << "---------------------------------------------------------" << '\n';
+    
+    for (auto stud : studentai) {
+        file << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+    }
+    file << "\n\n";
+}
+
+void rusiuok(vector<Studentas> &studentai, int rusBudas) {
+    if (rusBudas == 1) {
+        sort(studentai.begin(), studentai.end(),
+            [](const Studentas &a, const Studentas &b) { return a.vard < b.vard; });
+    }
+    else if (rusBudas == 2) {
+        sort(studentai.begin(), studentai.end(),
+            [](const Studentas &a, const Studentas &b) { return a.pav < b.pav; });
+    }
+    else {
+        sort(studentai.begin(), studentai.end(),
+            [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
+    }
+
 }
