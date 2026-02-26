@@ -308,7 +308,7 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
 }
 
 void ivestIsFailo(vector<Studentas> &studentai) {
-    ifstream file("kursiokai.txt");
+    ifstream file("studentai100000.txt");
     string line;
 
     getline(file, line);
@@ -342,12 +342,22 @@ void isvestIFaila(vector<Studentas> studentai, int pasirink) {
     else {
         galTekstas = "Galutinis (Med.)";
     }
+
+    stringstream ss;
+
+    ss << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
+    file << ss.str();
+    ss.str("");
+    ss.clear();
     
-    file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
-    file << "---------------------------------------------------------" << '\n';
+    ss << "---------------------------------------------------------" << '\n';
+    file << ss.str();
     
     for (auto stud : studentai) {
-        file << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+        ss.str("");
+        ss.clear();
+        ss << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+        file << ss.str();
     }
     file << "\n\n";
 }
