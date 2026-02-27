@@ -8,6 +8,7 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 
 using std::string;
 using std::vector;
@@ -24,6 +25,8 @@ using std::to_string;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
+using std::chrono::high_resolution_clock;
+using std::move;
 
 struct Studentas {
     string vard;
@@ -307,14 +310,26 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
     return;
 }
 
-void ivestIsFailo(vector<Studentas> &studentai) {
-    ifstream file("studentai100000.txt");
+void ivestIsFailo(vector<Studentas> &studentai, bool &klaida) {
+    auto start = high_resolution_clock::now();
+    ifstream file("studentai1000000.txt");
+    klaida = false;
+
+    if (!file) {
+        cout << "Klaida bandant atidaryti ivesties faila!";
+        klaida = true;
+        return;
+    }
+
+    std::istream lines(file.rdbuf());
     string line;
 
-    getline(file, line);
-    while (getline(file, line)) {
+    getline(lines, line);
+    stringstream ss(line);
+    while (getline(lines, line)) {
         Studentas naujasStud;
-        stringstream ss(line);
+        ss.clear();
+        ss.str(line);
 
         ss >> naujasStud.vard >> naujasStud.pav;
 
@@ -328,8 +343,11 @@ void ivestIsFailo(vector<Studentas> &studentai) {
         visiPaz.pop_back();
         naujasStud.tarp = visiPaz;
 
-        studentai.push_back(naujasStud);
+        studentai.push_back(move(naujasStud));
     }
+    auto end = high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    cout << "Elapsed time: " << elapsed.count() << " seconds\n";
 }
 
 void isvestIFaila(vector<Studentas> studentai, int pasirink) {
@@ -349,7 +367,7 @@ void isvestIFaila(vector<Studentas> studentai, int pasirink) {
     file << ss.str();
     ss.str("");
     ss.clear();
-    
+
     ss << "---------------------------------------------------------" << '\n';
     file << ss.str();
     
