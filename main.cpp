@@ -37,7 +37,7 @@ struct Studentas {
 };
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
-void ivestIsFailo(vector<Studentas> &studentai, bool &klaida);
+void ivestIsFailo(vector<Studentas> &studentai, string failoPav, bool &klaida);
 void isvestEkr(vector<Studentas> studentai, int pasirink);
 void isvestIFaila(vector<Studentas> studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
@@ -48,6 +48,7 @@ string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
 void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard);
 void rusiuok(vector<Studentas> &studentai, int rusBudas);
+string klauskFailo();
 
 int main() {
     srand(time(0));
@@ -64,10 +65,12 @@ int main() {
             ivestEkr(studentai, rndPaz, rndVard);
         }
         else {
+            string failoPav = klauskFailo();
+
             cout << "Skaitomas failas...\n";
             auto start = high_resolution_clock::now();
 
-            ivestIsFailo(studentai, klaida);
+            ivestIsFailo(studentai, failoPav, klaida);
             if (klaida) continue;
 
             auto end = high_resolution_clock::now();
@@ -323,9 +326,8 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
     return;
 }
 
-void ivestIsFailo(vector<Studentas> &studentai, bool &klaida) {
-    auto start = high_resolution_clock::now();
-    ifstream file("studentai1000000.txt");
+void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) {
+    ifstream file(failoPav);
     klaida = false;
 
     if (!file) {
@@ -387,4 +389,18 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
             [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
     }
 
+}
+
+string klauskFailo() {
+    vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
+    cout << "Pasirinkite ivesties faila.\n";
+    cout << "1. kursiokai.txt\n";
+    cout << "2. studentai10000.txt\n";
+    cout << "3. studentai100000.txt\n";
+    cout << "4. studentai1000000.txt\n";
+    int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
+
+    cout << '\n';
+
+    return failuPav.at(ivestFailas - 1);
 }
