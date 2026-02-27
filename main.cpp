@@ -37,7 +37,7 @@ struct Studentas {
 };
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
-void ivestIsFailo(vector<Studentas> &studentai);
+void ivestIsFailo(vector<Studentas> &studentai, bool &klaida);
 void isvestEkr(vector<Studentas> studentai, int pasirink);
 void isvestIFaila(vector<Studentas> studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
@@ -55,7 +55,7 @@ int main() {
     while (true) {
         vector<Studentas> studentai;
         int pasirink, ivestSaltinis, isvestVieta, rusBudas;
-        bool testi, rndPaz, rndVard;
+        bool testi, rndPaz, rndVard, klaida;
         
         klauskEigos(testi, ivestSaltinis, isvestVieta, pasirink, rusBudas, rndPaz, rndVard);
         if (!testi) break;
@@ -64,19 +64,39 @@ int main() {
             ivestEkr(studentai, rndPaz, rndVard);
         }
         else {
-            ivestIsFailo(studentai);
+            cout << "Skaitomas failas...\n";
+            auto start = high_resolution_clock::now();
+
+            ivestIsFailo(studentai, klaida);
+            if (klaida) continue;
+
+            auto end = high_resolution_clock::now();
+            std::chrono::duration<double> elapsed = end - start;
+            cout << "Failo nuskaitymas uztruko: " << elapsed.count() << " sekundes\n";
         }
-            
         
+        if (isvestVieta == 2) {
+            cout << "Skaiciuojami studentu galutiniai balai...\n";
+        }
         skaicGal(studentai, pasirink);
 
+        if (isvestVieta == 2) {
+            cout << "Rusiuojami studentai...\n";
+        }
         rusiuok(studentai, rusBudas);
 
         if (isvestVieta == 1) {
             isvestEkr(studentai, pasirink);
         }
         else {
+            cout << "Rezultatas rasomas i faila...\n";
+            auto start = high_resolution_clock::now();
+
             isvestIFaila(studentai, pasirink);
+
+            auto end = high_resolution_clock::now();
+            std::chrono::duration<double> elapsed = end - start;
+            cout << "Rezultatu rasymas i faila uztruko: " << elapsed.count() << " sekundes\n\n\n";
         }
     }
     
@@ -137,14 +157,7 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
 }
 
 void isvestEkr(vector<Studentas> studentai, int pasirink) {
-    string galTekstas;
-    
-    if (pasirink == 1) {
-        galTekstas = "Galutinis (Vid.)";
-    }
-    else {
-        galTekstas = "Galutinis (Med.)";
-    }
+    string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
     
     cout << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
     cout << "---------------------------------------------------------" << '\n';
@@ -345,37 +358,17 @@ void ivestIsFailo(vector<Studentas> &studentai, bool &klaida) {
 
         studentai.push_back(move(naujasStud));
     }
-    auto end = high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    cout << "Elapsed time: " << elapsed.count() << " seconds\n";
 }
 
 void isvestIFaila(vector<Studentas> studentai, int pasirink) {
     ofstream file("isvestis.txt");
-    string galTekstas;
-    
-    if (pasirink == 1) {
-        galTekstas = "Galutinis (Vid.)";
-    }
-    else {
-        galTekstas = "Galutinis (Med.)";
-    }
+    string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
-    stringstream ss;
-
-    ss << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
-    file << ss.str();
-    ss.str("");
-    ss.clear();
-
-    ss << "---------------------------------------------------------" << '\n';
-    file << ss.str();
+    file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
+    file << "---------------------------------------------------------" << '\n';
     
     for (auto stud : studentai) {
-        ss.str("");
-        ss.clear();
-        ss << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
-        file << ss.str();
+        file << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
     }
     file << "\n\n";
 }
