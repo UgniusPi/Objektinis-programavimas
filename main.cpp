@@ -8,7 +8,6 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
-#include <chrono>
 
 using std::string;
 using std::vector;
@@ -25,8 +24,6 @@ using std::to_string;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
-using std::chrono::high_resolution_clock;
-using std::chrono::duration;
 
 struct Studentas {
     string vard;
@@ -68,14 +65,8 @@ int main() {
             string failoPav = klauskFailo();
 
             cout << "Skaitomas failas...\n";
-            auto start = high_resolution_clock::now();
-
             ivestIsFailo(studentai, failoPav, klaida);
             if (klaida) continue;
-
-            auto end = high_resolution_clock::now();
-            duration<double> elapsed = end - start;
-            cout << "Failo nuskaitymas uztruko: " << elapsed.count() << " sekundes\n";
         }
         
         if (isvestVieta == 2) {
@@ -93,13 +84,7 @@ int main() {
         }
         else {
             cout << "Rezultatas rasomas i faila...\n";
-            auto start = high_resolution_clock::now();
-
             isvestIFaila(studentai, pasirink);
-
-            auto end = high_resolution_clock::now();
-            duration<double> elapsed = end - start;
-            cout << "Rezultatu rasymas i faila uztruko: " << elapsed.count() << " sekundes\n\n\n";
         }
     }
     
@@ -167,7 +152,6 @@ void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     
     for (auto stud : studentai) {
         cout << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
-    
     }
     cout << "\n\n";
 }
@@ -327,6 +311,7 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
 }
 
 void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) {
+    
     ifstream file(failoPav);
     string line;
     klaida = false;
@@ -337,9 +322,14 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
         return;
     }
 
-    getline(file, line);
+    stringstream buffer;
+    buffer << file.rdbuf();    
+    string content = buffer.str();
+    stringstream lines(content);
+
+    getline(lines, line);
     stringstream ss(line);
-    while (getline(file, line)) {
+    while (getline(lines, line)) {
         Studentas naujasStud;
         ss.clear();
         ss.str(line);
@@ -386,7 +376,6 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
     }
-
 }
 
 string klauskFailo() {
