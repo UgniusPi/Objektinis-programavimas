@@ -26,7 +26,7 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 using std::chrono::high_resolution_clock;
-using std::move;
+using std::chrono::duration;
 
 struct Studentas {
     string vard;
@@ -38,8 +38,8 @@ struct Studentas {
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
 void ivestIsFailo(vector<Studentas> &studentai, string failoPav, bool &klaida);
-void isvestEkr(vector<Studentas> studentai, int pasirink);
-void isvestIFaila(vector<Studentas> studentai, int pasirink);
+void isvestEkr(const vector<Studentas> &studentai, int pasirink);
+void isvestIFaila(const vector<Studentas> &studentai, int pasirink);
 void skaicGal(vector<Studentas> &studentai, int pasirink);
 bool isInt(string inp);
 int validInput(string prompt);
@@ -74,7 +74,7 @@ int main() {
             if (klaida) continue;
 
             auto end = high_resolution_clock::now();
-            std::chrono::duration<double> elapsed = end - start;
+            duration<double> elapsed = end - start;
             cout << "Failo nuskaitymas uztruko: " << elapsed.count() << " sekundes\n";
         }
         
@@ -98,7 +98,7 @@ int main() {
             isvestIFaila(studentai, pasirink);
 
             auto end = high_resolution_clock::now();
-            std::chrono::duration<double> elapsed = end - start;
+            duration<double> elapsed = end - start;
             cout << "Rezultatu rasymas i faila uztruko: " << elapsed.count() << " sekundes\n\n\n";
         }
     }
@@ -159,7 +159,7 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     }
 }
 
-void isvestEkr(vector<Studentas> studentai, int pasirink) {
+void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
     
     cout << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
@@ -328,6 +328,7 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
 
 void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) {
     ifstream file(failoPav);
+    string line;
     klaida = false;
 
     if (!file) {
@@ -336,12 +337,9 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
         return;
     }
 
-    std::istream lines(file.rdbuf());
-    string line;
-
-    getline(lines, line);
+    getline(file, line);
     stringstream ss(line);
-    while (getline(lines, line)) {
+    while (getline(file, line)) {
         Studentas naujasStud;
         ss.clear();
         ss.str(line);
@@ -358,11 +356,11 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
         visiPaz.pop_back();
         naujasStud.tarp = visiPaz;
 
-        studentai.push_back(move(naujasStud));
+        studentai.push_back(naujasStud);
     }
 }
 
-void isvestIFaila(vector<Studentas> studentai, int pasirink) {
+void isvestIFaila(const vector<Studentas> &studentai, int pasirink) {
     ofstream file("isvestis.txt");
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
