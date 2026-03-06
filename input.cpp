@@ -8,7 +8,10 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
-#include <filesystem> 
+// #include <filesystem> 
+// #include <experimental/filesystem>
+#include <windows.h>
+
 
 #include "funkcijos.h"
 
@@ -28,7 +31,7 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 
-namespace fs = std::filesystem;
+// namespace fs = std::experimental::filesystem;
 
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
@@ -226,20 +229,14 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 }
 
 string klauskFailo() {
-    string path = "ivestis";
-    vector<string> failuPav;
-    for (const auto &entry : fs::directory_iterator(path)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
-            failuPav.push_back(entry.path().filename().string());
-        }
-    }
+    vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
+    
     cout << "Pasirinkite ivesties faila.\n";
     cout << "1. kursiokai.txt\n";
     cout << "2. studentai10000.txt\n";
     cout << "3. studentai100000.txt\n";
     cout << "4. studentai1000000.txt\n";
     int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
-
     cout << '\n';
 
     return failuPav.at(ivestFailas - 1);
