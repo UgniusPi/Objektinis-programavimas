@@ -25,11 +25,10 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 
-#include "strukturos.h"
 #include "funkcijos.h"
 
 int main() {
-    cout << "2\n";
+    cout << "3\n";
     srand(time(0));
     
     while (true) {
