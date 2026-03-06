@@ -33,6 +33,15 @@ struct Studentas {
     double gal;
 };
 
+struct Nustatymai {
+    int ivestSaltinis;
+    int isvestVieta;
+    int pasirink;
+    int rusBudas;
+    bool rndPaz;
+    bool rndVard;
+};
+
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
 void ivestIsFailo(vector<Studentas> &studentai, string failoPav, bool &klaida);
 void isvestEkr(const vector<Studentas> &studentai, int pasirink);
@@ -43,7 +52,7 @@ int validInput(string prompt);
 int validRange(int from, int to, string prompt);
 string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
-void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard);
+void klauskEigos(bool &testi, Nustatymai &nustatymai);
 void rusiuok(vector<Studentas> &studentai, int rusBudas);
 string klauskFailo();
 
@@ -52,14 +61,14 @@ int main() {
     
     while (true) {
         vector<Studentas> studentai;
-        int pasirink, ivestSaltinis, isvestVieta, rusBudas;
-        bool testi, rndPaz, rndVard, klaida;
+        Nustatymai nustatymai;
+        bool testi, klaida;
         
-        klauskEigos(testi, ivestSaltinis, isvestVieta, pasirink, rusBudas, rndPaz, rndVard);
+        klauskEigos(testi, nustatymai);
         if (!testi) break;
 
-        if (ivestSaltinis == 1) {
-            ivestEkr(studentai, rndPaz, rndVard);
+        if (nustatymai.ivestSaltinis == 1) {
+            ivestEkr(studentai, nustatymai.rndPaz, nustatymai.rndVard);
         }
         else {
             string failoPav = klauskFailo();
@@ -69,22 +78,22 @@ int main() {
             if (klaida) continue;
         }
         
-        if (isvestVieta == 2) {
+        if (nustatymai.isvestVieta == 2) {
             cout << "Skaiciuojami studentu galutiniai balai...\n";
         }
-        skaicGal(studentai, pasirink);
+        skaicGal(studentai, nustatymai.pasirink);
 
-        if (isvestVieta == 2) {
+        if (nustatymai.isvestVieta == 2) {
             cout << "Rusiuojami studentai...\n";
         }
-        rusiuok(studentai, rusBudas);
+        rusiuok(studentai, nustatymai.rusBudas);
 
-        if (isvestVieta == 1) {
-            isvestEkr(studentai, pasirink);
+        if (nustatymai.isvestVieta == 1) {
+            isvestEkr(studentai, nustatymai.pasirink);
         }
         else {
             cout << "Rezultatas rasomas i faila...\n";
-            isvestIFaila(studentai, pasirink);
+            isvestIFaila(studentai, nustatymai.pasirink);
         }
     }
     
@@ -257,12 +266,12 @@ string rndVardas(int from, int to) {
     return vard;
 }
 
-void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirink, int &rusBudas, bool &rndPaz, bool &rndVard) {
+void klauskEigos(bool &testi, Nustatymai &nustatymai) {
     int eiga;
     testi = true;
-    rndPaz = false;
-    rndVard = false;
-    ivestSaltinis = 1;
+    nustatymai.rndPaz = false;
+    nustatymai.rndVard = false;
+    nustatymai.ivestSaltinis = 1;
 
     cout << "Pasirinkite programos eiga.\n";
     cout << "1. Studentu duomenis skaityti is failo.\n";
@@ -274,14 +283,14 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
     cout << '\n';
     
     if (eiga == 1) {
-        ivestSaltinis = 2;
+        nustatymai.ivestSaltinis = 2;
     }
     else if (eiga == 3) {
-        rndPaz = true;   
+        nustatymai.rndPaz = true;   
     }
     else if (eiga == 4) {
-        rndPaz = true;
-        rndVard = true;
+        nustatymai.rndPaz = true;
+        nustatymai.rndVard = true;
     }
     else if (eiga == 5) {
         testi = false;
@@ -291,20 +300,20 @@ void klauskEigos(bool &testi, int &ivestSaltinis, int &isvestVieta, int &pasirin
     cout << "Pasirinkite isvesties buda.\n";
     cout << "1. Isvesti i ekrana.\n";
     cout << "2. Issaugoti i faila.\n";
-    isvestVieta = validRange(1, 2, "Pasirinkimas: ");
+    nustatymai.isvestVieta = validRange(1, 2, "Pasirinkimas: ");
     cout << '\n';
 
     cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
     cout << "1. Naudojant vidurki.\n";
     cout << "2. Naudojant mediana.\n";
-    pasirink = validRange(1, 2, "Pasirinkimas: ");
+    nustatymai.pasirink = validRange(1, 2, "Pasirinkimas: ");
     cout << '\n';
 
     cout << "Pasirinkite studentu rusiavimo kriteriju.\n";
     cout << "1. Vardas\n";
     cout << "2. Pavarde\n";
     cout << "3. Galutinis balas\n";
-    rusBudas = validRange(1, 3, "Pasirinkimas: ");
+    nustatymai.rusBudas = validRange(1, 3, "Pasirinkimas: ");
     cout << '\n';
 
     return;
