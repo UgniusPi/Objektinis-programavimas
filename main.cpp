@@ -324,12 +324,10 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 
     stringstream buffer;
     buffer << file.rdbuf();    
-    string content = buffer.str();
-    stringstream lines(content);
 
-    getline(lines, line);
+    getline(buffer, line);
     stringstream ss(line);
-    while (getline(lines, line)) {
+    while (getline(buffer, line)) {
         Studentas naujasStud;
         ss.clear();
         ss.str(line);
