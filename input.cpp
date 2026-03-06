@@ -237,7 +237,7 @@ string klauskFailo() {
     cout << "3. studentai100000.txt\n";
     cout << "4. studentai1000000.txt\n";
     int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
-    cout << '\n\n';
+    cout << '\n';
 
     return failuPav.at(ivestFailas - 1);
 }
