@@ -8,6 +8,7 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
+#include <filesystem> 
 
 #include "funkcijos.h"
 
@@ -26,6 +27,8 @@ using std::to_string;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
+
+namespace fs = std::filesystem;
 
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
@@ -223,7 +226,13 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 }
 
 string klauskFailo() {
-    vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
+    string path = "ivestis";
+    vector<string> failuPav;
+    for (const auto &entry : fs::directory_iterator(path)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+            failuPav.push_back(entry.path().filename().string());
+        }
+    }
     cout << "Pasirinkite ivesties faila.\n";
     cout << "1. kursiokai.txt\n";
     cout << "2. studentai10000.txt\n";

@@ -28,7 +28,6 @@ using std::stringstream;
 #include "funkcijos.h"
 
 int main() {
-    cout << "3\n";
     srand(time(0));
     
     while (true) {
