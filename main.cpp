@@ -353,12 +353,11 @@ void isvestIFaila(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
     file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
-    file << "---------------------------------------------------------" << '\n';
+    file << "---------------------------------------------------------";
     
     for (auto stud : studentai) {
-        file << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+        file << '\n' << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal;
     }
-    file << "\n\n";
 }
 
 void rusiuok(vector<Studentas> &studentai, int rusBudas) {
