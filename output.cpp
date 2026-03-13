@@ -127,3 +127,20 @@ void kurkFaila(int studSk, int pazSk) {
         file << right << setw(10) << to_string(rand() % 10 + 1) << "\n";
     }
 }
+
+void skirstyk(const string &failoPav) {
+    vector<Studentas> studentai, vargsiukai, galvociai;
+    bool klaida;
+
+    ivestIsFailo(studentai, "stud100.txt", klaida);
+
+    for (const auto &stud : studentai) {
+        if (stud.gal < 5) {
+            vargsiukai.push_back(stud);
+        }
+        else {
+            galvociai.push_back(stud);
+        }
+    }
+    
+}
