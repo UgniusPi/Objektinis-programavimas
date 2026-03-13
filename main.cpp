@@ -12,9 +12,12 @@ using std::cin;
 
 int main() {
     srand(time(0));
+    bool tirti = true;
 
-    kurkFaila(100, 12);
-    skirstyk("stud100.txt");
+    if (tirti) {
+        tirk(1000, 12);
+        return 0;
+    }
 
     while (true) {
         vector<Studentas> studentai;

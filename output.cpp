@@ -147,3 +147,10 @@ void skirstyk(const string &failoPav) {
     isvestIFaila(vargsiukai, 1, "vargsiukai.txt");
     isvestIFaila(galvociai, 1, "galvociai.txt");
 }
+
+void tirk(int studSk, int pazSk) {
+    kurkFaila(studSk, pazSk);
+    
+    string failoPav = "stud" + to_string(studSk) + ".txt";
+    skirstyk(failoPav);
+}
