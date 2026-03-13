@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cctype>
 #include <fstream>
 #include <sstream>
 #include <filesystem> 
@@ -16,7 +17,6 @@ using std::stoi;
 using std::getline;
 using std::to_string;
 using std::ifstream;
-using std::ofstream;
 using std::stringstream;
 using std::filesystem::path;
 using std::filesystem::directory_iterator;

@@ -4,11 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <cstdlib>
-#include <ctime>
-#include <cctype>
 #include <fstream>
-#include <sstream>
-
 #include "funkcijos.h"
 
 using std::string;
@@ -16,17 +12,10 @@ using std::vector;
 using std::cout;
 using std::cin;
 using std::left;
-using std::right;
 using std::setw;
 using std::setprecision;
 using std::fixed;
-using std::stoi;
-using std::getline;
-using std::to_string;
-using std::ifstream;
 using std::ofstream;
-using std::stringstream;
-
 
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
