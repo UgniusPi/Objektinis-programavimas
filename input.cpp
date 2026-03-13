@@ -197,13 +197,39 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
     while (getline(buffer, line)) {
         stringstream ss(line);
         Studentas naujasStud;
+        string tmp;
 
-        ss >> naujasStud.vard >> naujasStud.pav;
+        if (ss >> tmp) {
+            naujasStud.vard = tmp;
+        }
+        else {
+            continue;
+        }
+
+        if (ss >> tmp) {
+            naujasStud.pav = tmp;
+        }
+        else {
+            cout << "Klaidingi duomenys faile!";
+            klaida = true;
+            return;
+        }
 
         vector<int> visiPaz;
-        int tmpPaz;
-        while (ss >> tmpPaz) {
+        while (ss >> tmp) {
+            if (!isInt(tmp)) {
+                cout << "Klaidingi duomenys faile!";
+                klaida = true;
+                return;   
+            }
+            int tmpPaz = stoi(tmp);
             visiPaz.push_back(tmpPaz);
+        }
+
+        if (visiPaz.empty()) {
+            cout << "Klaidingi duomenys faile!";
+            klaida = true;
+            return;
         }
 
         naujasStud.egz = visiPaz.back();
