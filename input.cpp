@@ -23,7 +23,7 @@ using std::filesystem::directory_iterator;
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     int studSk = validInput("Iveskite studentu skaiciu: ");
-    cout << '\n';
+    cout << "\n";
     
     while (true) {
         for (int i=0; i<studSk; i++) {
@@ -34,7 +34,7 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
                 naujasStud.vard = rndVardas(4, 10);
                 naujasStud.pav = rndVardas(6, 12);
                 cout << "Automatiskai sugeneruoto " << to_string(i + 1) << " is " << to_string(studSk) << " studento vardas ir pavarde:\n";
-                cout << left << setw(16) << naujasStud.vard << left << setw(20) << naujasStud.pav << '\n';
+                cout << left << setw(16) << naujasStud.vard << left << setw(20) << naujasStud.pav << "\n";
             }
             else {
                 naujasStud.vard = validLength(15, "Iveskite " + to_string(i + 1) + " is " + to_string(studSk) + " studento varda (iki 15 raidziu): ");
@@ -51,7 +51,7 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
                 }
                 
                 naujasStud.egz = rand() % 11;
-                cout << '\n' << naujasStud.egz << "\n\n";
+                cout << "\n" << naujasStud.egz << "\n\n";
             }
             else {
                 tarpSk = validInput("Iveskite tarpiniu pazymiu skaiciu: ");
@@ -61,14 +61,14 @@ void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
                 }
                 
                 naujasStud.egz = validInput("Iveskite egzamino rezultata: ");
-                cout << '\n';
+                cout << "\n";
             }
             
             studentai.push_back(naujasStud);
         } 
         
         studSk = validInput("Iveskite papildomu studentu skaiciu (jei nenorite prideti studentu, iveskite 0): ");
-        cout << '\n';
+        cout << "\n";
         if (studSk == 0) break;
     }
 }
@@ -138,7 +138,7 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai) {
     cout << "4. Automatiskai generuoti studentu vardus, pavardes ir pazymius.\n";
     cout << "5. Baigti darba.\n";
     eiga = validRange(1, 5, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n";
     
     if (eiga == 1) {
         nustatymai.ivestSaltinis = 2;
@@ -159,20 +159,20 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai) {
     cout << "1. Isvesti i ekrana.\n";
     cout << "2. Issaugoti i faila.\n";
     nustatymai.isvestVieta = validRange(1, 2, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n";
 
     cout << "Pasirinkite galutinio rezultato skaiciavimo buda.\n";
     cout << "1. Naudojant vidurki.\n";
     cout << "2. Naudojant mediana.\n";
     nustatymai.pasirink = validRange(1, 2, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n";
 
     cout << "Pasirinkite studentu rusiavimo kriteriju.\n";
     cout << "1. Vardas\n";
     cout << "2. Pavarde\n";
     cout << "3. Galutinis balas\n";
     nustatymai.rusBudas = validRange(1, 3, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n";
 
     return;
 }
@@ -224,10 +224,10 @@ string klauskFailo() {
     
     cout << "Pasirinkite ivesties faila.\n";
     for (int i=0; i<failuPav.size(); i++) {
-        cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << '\n';
+        cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << "\n";
     }
     int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
-    cout << '\n';
+    cout << "\n";
 
     return failuPav.at(ivestFailas - 1).string();
 }

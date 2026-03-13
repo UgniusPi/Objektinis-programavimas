@@ -20,11 +20,11 @@ using std::ofstream;
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
     
-    cout << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
-    cout << "---------------------------------------------------------" << '\n';
+    cout << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
+    cout << "---------------------------------------------------------" << "\n";
     
     for (auto stud : studentai) {
-        cout << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << '\n';
+        cout << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal << "\n";
     }
     cout << "\n\n";
 }
@@ -83,11 +83,11 @@ void isvestIFaila(const vector<Studentas> &studentai, int pasirink) {
     ofstream file("isvestis.txt");
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
-    file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << '\n';
+    file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
     file << "---------------------------------------------------------";
     
     for (auto stud : studentai) {
-        file << '\n' << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal;
+        file << "\n" << left << setw(21) << stud.pav << left << setw(16) << stud.vard << left << setw(20) << fixed << setprecision(2) << stud.gal;
     }
 }
 
