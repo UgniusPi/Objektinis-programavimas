@@ -20,6 +20,7 @@ using std::ifstream;
 using std::stringstream;
 using std::filesystem::path;
 using std::filesystem::directory_iterator;
+using std::exception;
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     int studSk = validInput("Iveskite studentu skaiciu: ");
@@ -178,8 +179,8 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai) {
 }
 
 void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) {
-    
     ifstream file(failoPav);
+    stringstream buffer;
     string line;
     klaida = false;
 
@@ -189,15 +190,13 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
         return;
     }
 
-    stringstream buffer;
-    buffer << file.rdbuf();    
+    buffer << file.rdbuf();  
 
     getline(buffer, line);
-    stringstream ss(line);
+    
     while (getline(buffer, line)) {
+        stringstream ss(line);
         Studentas naujasStud;
-        ss.clear();
-        ss.str(line);
 
         ss >> naujasStud.vard >> naujasStud.pav;
 
@@ -215,11 +214,19 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
     }
 }
 
-string klauskFailo() {
+string klauskFailo(bool &klaida) {
     vector<path> failuPav;
+    klaida = false;
 
-    for (auto p: std::filesystem::directory_iterator("ivestis")) {
-        failuPav.push_back(p.path());
+    try {
+        for (auto p: directory_iterator("ivestis")) {
+            failuPav.push_back(p.path());
+        }
+    }
+    catch (exception &e) {
+        cout << "Klaida skaitant aplanka:\n" << e.what() << "\n";
+        klaida = true;
+        return "";
     }
     
     cout << "Pasirinkite ivesties faila.\n";

@@ -17,4 +17,4 @@ string validLength(int maxLength, string prompt);
 string rndVardas(int from, int to);
 void klauskEigos(bool &testi, Nustatymai &nustatymai);
 void rusiuok(vector<Studentas> &studentai, int rusBudas);
-string klauskFailo();
+string klauskFailo(bool &klaida);
