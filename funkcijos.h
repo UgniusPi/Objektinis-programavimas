@@ -1,14 +1,5 @@
-#include <iostream>
 #include <vector>
-#include <iomanip>
-#include <algorithm>
 #include <string>
-#include <cstdlib>
-#include <ctime>
-#include <cctype>
-#include <fstream>
-#include <sstream>
-
 #include "strukturos.h"
 
 using std::string;

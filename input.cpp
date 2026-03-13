@@ -1,18 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <iomanip>
-#include <algorithm>
 #include <string>
-#include <cstdlib>
-#include <ctime>
-#include <cctype>
 #include <fstream>
 #include <sstream>
 #include <filesystem> 
-// #include <experimental/filesystem>
-#include <windows.h>
-
-
 #include "funkcijos.h"
 
 using std::string;
@@ -20,19 +11,15 @@ using std::vector;
 using std::cout;
 using std::cin;
 using std::left;
-using std::right;
 using std::setw;
-using std::setprecision;
-using std::fixed;
 using std::stoi;
 using std::getline;
 using std::to_string;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
-
-namespace fs = std::filesystem;
-
+using std::filesystem::path;
+using std::filesystem::directory_iterator;
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     int studSk = validInput("Iveskite studentu skaiciu: ");
@@ -229,15 +216,8 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 }
 
 string klauskFailo() {
-    // vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
-    
-    // cout << "Pasirinkite ivesties faila.\n";
-    // cout << "1. kursiokai.txt\n";
-    // cout << "2. studentai10000.txt\n";
-    // cout << "3. studentai100000.txt\n";
-    // cout << "4. studentai1000000.txt\n";
+    vector<path> failuPav;
 
-    vector<fs::path> failuPav;
     for (auto p: std::filesystem::directory_iterator("ivestis")) {
         failuPav.push_back(p.path());
     }
