@@ -81,7 +81,7 @@ string rndVardas(int from, int to) {
     return vard;
 }
 
-void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav = "isvestis.txt") {
+void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav) {
     ofstream file(failoPav);
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
@@ -133,6 +133,7 @@ void skirstyk(const string &failoPav) {
     bool klaida;
 
     ivestIsFailo(studentai, "stud100.txt", klaida);
+    skaicGal(studentai, 1);
 
     for (const auto &stud : studentai) {
         if (stud.gal < 5) {

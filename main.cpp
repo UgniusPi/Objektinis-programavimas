@@ -13,6 +13,9 @@ using std::cin;
 int main() {
     srand(time(0));
 
+    kurkFaila(100, 12);
+    skirstyk("stud100.txt");
+
     while (true) {
         vector<Studentas> studentai;
         Nustatymai nustatymai;

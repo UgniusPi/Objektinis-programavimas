@@ -19,4 +19,4 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai);
 void rusiuok(vector<Studentas> &studentai, int rusBudas);
 string klauskFailo(bool &klaida);
 void kurkFaila(int studSk, int pazSk);
-void skirstyk(const string &failoPav, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai);
+void skirstyk(const string &failoPav);
