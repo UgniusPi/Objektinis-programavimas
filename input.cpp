@@ -8,7 +8,7 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
-// #include <filesystem> 
+#include <filesystem> 
 // #include <experimental/filesystem>
 #include <windows.h>
 
@@ -31,7 +31,7 @@ using std::ifstream;
 using std::ofstream;
 using std::stringstream;
 
-// namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
@@ -229,15 +229,25 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 }
 
 string klauskFailo() {
-    vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
+    // vector<string> failuPav {"kursiokai.txt", "studentai10000.txt", "studentai100000.txt", "studentai1000000.txt"};
+    
+    // cout << "Pasirinkite ivesties faila.\n";
+    // cout << "1. kursiokai.txt\n";
+    // cout << "2. studentai10000.txt\n";
+    // cout << "3. studentai100000.txt\n";
+    // cout << "4. studentai1000000.txt\n";
+
+    vector<fs::path> failuPav;
+    for (auto p: std::filesystem::directory_iterator("ivestis")) {
+        failuPav.push_back(p.path());
+    }
     
     cout << "Pasirinkite ivesties faila.\n";
-    cout << "1. kursiokai.txt\n";
-    cout << "2. studentai10000.txt\n";
-    cout << "3. studentai100000.txt\n";
-    cout << "4. studentai1000000.txt\n";
+    for (int i=0; i<failuPav.size(); i++) {
+        cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << '\n';
+    }
     int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
     cout << '\n';
 
-    return failuPav.at(ivestFailas - 1);
+    return failuPav.at(ivestFailas - 1).string();
 }
