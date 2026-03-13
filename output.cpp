@@ -81,8 +81,8 @@ string rndVardas(int from, int to) {
     return vard;
 }
 
-void isvestIFaila(const vector<Studentas> &studentai, int pasirink) {
-    ofstream file("isvestis.txt");
+void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav = "isvestis.txt") {
+    ofstream file(failoPav);
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
     file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
@@ -142,5 +142,7 @@ void skirstyk(const string &failoPav) {
             galvociai.push_back(stud);
         }
     }
-    
+
+    isvestIFaila(vargsiukai, 1, "vargsiukai.txt");
+    isvestIFaila(galvociai, 1, "galvociai.txt");
 }
