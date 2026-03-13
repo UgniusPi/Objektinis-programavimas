@@ -12,10 +12,12 @@ using std::vector;
 using std::cout;
 using std::cin;
 using std::left;
+using std::right;
 using std::setw;
 using std::setprecision;
 using std::fixed;
 using std::ofstream;
+using std::to_string;
 
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
@@ -103,5 +105,25 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
     else {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
+    }
+}
+
+void kurkFaila(int studSk, int pazSk) {
+    string failoPav = "stud" + to_string(studSk) + ".txt";
+    ofstream file(failoPav);
+
+    file << left << setw(16) << "Vardas" << right << setw(16) << "Pavarde" << setw(13) << " ";
+    for (int i=0; i<pazSk; i++) {
+        file << right << setw(10) << "ND" + to_string(i + 1);
+    }
+    file << right << setw(10) << "Egz." << "\n"; 
+
+    for (int i=0; i<studSk; i++) {
+        file << left << setw(16) << "Vardas" + to_string(i + 1) << right << setw(16) << "Pavarde" + to_string(i + 1);
+        file << setw(13) << " ";
+        for (int j=0; j<pazSk; j++) {
+            file << right << setw(10) << to_string(rand() % 10 + 1);
+        }
+        file << right << setw(10) << to_string(rand() % 10 + 1) << "\n";
     }
 }

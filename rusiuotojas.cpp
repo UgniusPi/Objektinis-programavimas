@@ -23,8 +23,6 @@ int main() {
     outfile2 << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
     outfile2 << "---------------------------------------------------------";
 
-    
-
     buffer << infile.rdbuf();  
 
     getline(buffer, line);
@@ -60,7 +58,6 @@ int main() {
             isveskIFaila(studentas, outfile2);
         }
     }
-
 
     return 0;
 }
