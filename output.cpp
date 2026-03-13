@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <chrono>
 #include "funkcijos.h"
 
 using std::string;
@@ -18,6 +19,8 @@ using std::setprecision;
 using std::fixed;
 using std::ofstream;
 using std::to_string;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
 
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
@@ -109,6 +112,7 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
 }
 
 void kurkFaila(int studSk, int pazSk) {
+    auto start = high_resolution_clock::now();
     string failoPav = "stud" + to_string(studSk) + ".txt";
     ofstream file(failoPav);
 
@@ -126,14 +130,26 @@ void kurkFaila(int studSk, int pazSk) {
         }
         file << right << setw(10) << to_string(rand() % 10 + 1) << "\n";
     }
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << to_string(studSk) << " irasu faila sukurti uztruko: " << elapsed.count() << "\n";
 }
 
-void skirstyk(const string &failoPav) {
+void skirstyk(int studSk) {
     vector<Studentas> studentai, vargsiukai, galvociai;
     bool klaida;
+    string failoPav = "stud" + to_string(studSk) + ".txt";
 
-    ivestIsFailo(studentai, "stud100.txt", klaida);
+    auto start = high_resolution_clock::now();
+
+    ivestIsFailo(studentai, failoPav, klaida);
+
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << to_string(studSk) << " irasu faila nuskaityti uztruko: " << elapsed.count() << "\n";
+
     skaicGal(studentai, 1);
+    rusiuok(studentai, 1);
 
     for (const auto &stud : studentai) {
         if (stud.gal < 5) {
@@ -149,8 +165,11 @@ void skirstyk(const string &failoPav) {
 }
 
 void tirk(int studSk, int pazSk) {
+    auto start = high_resolution_clock::now();
     kurkFaila(studSk, pazSk);
-    
-    string failoPav = "stud" + to_string(studSk) + ".txt";
-    skirstyk(failoPav);
+
+    skirstyk(studSk);
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << to_string(studSk) << "irasu visas testas uztruko: " << elapsed.count() << "\n";
 }
