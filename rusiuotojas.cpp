@@ -8,20 +8,11 @@
 #include "strukturos.h"
 using namespace std;
 
-void isveskIFaila(const Studentas &studentas, ofstream &failas);
-
 int main() {
     ifstream infile("stud100.txt");
-    ofstream outfile1("vargsiukai.txt");
-    ofstream outfile2("galvociai.txt");
     stringstream buffer;
     string line;
-
-    string galTekstas = "Galutinis (Vid.)";
-    outfile1 << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
-    outfile1 << "---------------------------------------------------------";
-    outfile2 << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
-    outfile2 << "---------------------------------------------------------";
+    vector<Studentas> vargsiukai, galvociai;
 
     buffer << infile.rdbuf();  
 
@@ -52,17 +43,12 @@ int main() {
         studentas.gal = vid * 0.4 + (double)studentas.egz * 0.6; 
 
         if (studentas.gal < 5) {
-            isveskIFaila(studentas, outfile1);
+            vargsiukai.push_back(studentas);
         }
         else {
-            isveskIFaila(studentas, outfile2);
+            galvociai.push_back(studentas);
         }
     }
 
     return 0;
-}
-
-void isveskIFaila(const Studentas &studentas, ofstream &failas) {
-
-    failas << "\n" << left << setw(21) << studentas.pav << left << setw(16) << studentas.vard << left << setw(20) << fixed << setprecision(2) << studentas.gal;
 }
