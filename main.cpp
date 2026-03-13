@@ -15,7 +15,7 @@ int main() {
     bool tirti = true;
 
     if (tirti) {
-        tirk(1000, 12);
+        tirk(1000, 10);
         return 0;
     }
 
