@@ -181,8 +181,8 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai) {
     return;
 }
 
-void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) {
-    ifstream file(failoPav);
+void ivestIsFailo(vector<Studentas> &studentai, string failoKelias,  bool &klaida) {
+    ifstream file(failoKelias);
     stringstream buffer;
     string line;
     klaida = false;

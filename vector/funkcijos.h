@@ -6,7 +6,7 @@ using std::string;
 using std::vector;
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard);
-void ivestIsFailo(vector<Studentas> &studentai, string failoPav, bool &klaida);
+void ivestIsFailo(vector<Studentas> &studentai, string failoKelias, bool &klaida);
 void isvestEkr(const vector<Studentas> &studentai, int pasirink);
 void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav = "isvestis.txt");
 void skaicGal(vector<Studentas> &studentai, int pasirink);

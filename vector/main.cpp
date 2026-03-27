@@ -25,11 +25,11 @@ int main() {
             ivestEkr(studentai, nustatymai.rndPaz, nustatymai.rndVard);
         }
         else {
-            string failoPav = klauskFailo(klaida);
+            string failoKelias = klauskFailo(klaida);
             if (klaida) return 1;
 
             cout << "Skaitomas failas...\n";
-            ivestIsFailo(studentai, failoPav, klaida);
+            ivestIsFailo(studentai, failoKelias, klaida);
             if (klaida) return 1;
         }
         

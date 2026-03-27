@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <chrono>
+#include <filesystem> 
 #include "funkcijos.h"
 
 using std::string;
@@ -21,6 +22,7 @@ using std::ofstream;
 using std::to_string;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
+namespace fs = std::filesystem;
 
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
@@ -85,7 +87,9 @@ string rndVardas(int from, int to) {
 }
 
 void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav) {
-    ofstream file(failoPav);
+    string failoKelias = "isvestis/" + failoPav;
+    fs::create_directories("isvestis");
+    ofstream file(failoKelias);
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
     file << left << setw(21) << "Pavarde" << left << setw(16) << "Vardas" << left << setw(20) << galTekstas << "\n";
