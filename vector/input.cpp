@@ -84,7 +84,7 @@ bool isInt(string inp) {
         }
     }
     
-    return inp.length() != 0 && inp.length() <= 4;
+    return inp.length() != 0 && inp.length() <= 10;
 }
 
 int validInput(string prompt) {
@@ -266,8 +266,18 @@ string klauskFailo(bool &klaida) {
     for (int i=0; i<failuPav.size(); i++) {
         cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << "\n";
     }
-    int ivestFailas = validRange(1, failuPav.size(), "Pasirinkimas: ");
+    cout << to_string(failuPav.size() + 1) << ". " << "Sugeneruoti faila\n";
+    int ivestFailas = validRange(1, failuPav.size() + 1, "Pasirinkimas: ");
     cout << "\n";
 
-    return failuPav.at(ivestFailas - 1).string();
+    if (ivestFailas == failuPav.size() + 1) {
+        int studSk = validInput("Iveskite studentu skaiciu: ");
+        int pazSk = validInput("Iveskite pazymiu skaiciu: ");
+        
+        return kurkFaila(studSk, pazSk);
+    }
+    else {
+        return failuPav.at(ivestFailas - 1).string();
+    }
+    
 }

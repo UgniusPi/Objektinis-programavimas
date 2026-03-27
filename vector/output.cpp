@@ -115,10 +115,11 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
     cout << "Vector konteinerio duomenu rusiavimas uztruko: " << elapsed.count() << "\n";
 }
 
-void kurkFaila(int studSk, int pazSk) {
+string kurkFaila(int studSk, int pazSk) {
     auto start = high_resolution_clock::now();
     string failoPav = "stud" + to_string(studSk) + ".txt";
-    ofstream file(failoPav);
+    string failoKelias = "ivestis/" + failoPav;
+    ofstream file(failoKelias);
 
     file << left << setw(16) << "Vardas" << right << setw(16) << "Pavarde" << setw(13) << " ";
     for (int i=0; i<pazSk; i++) {
@@ -136,64 +137,12 @@ void kurkFaila(int studSk, int pazSk) {
     }
     auto end = high_resolution_clock::now();
     duration<double> elapsed = end - start;
-    cout << to_string(studSk) << " irasu faila sukurti uztruko:\t\t" << elapsed.count() << "\n";
+    cout << to_string(studSk) << " irasu faila sukurti uztruko: " << elapsed.count() << "\n";
+
+    return failoKelias;
 }
 
-void skirstyk(int studSk) {
-    vector<Studentas> studentai, vargsiukai, galvociai;
-    bool klaida;
-    string failoPav = "stud" + to_string(studSk) + ".txt";
-
-    auto start = high_resolution_clock::now();
-
-    ivestIsFailo(studentai, failoPav, klaida);
-
-    auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << to_string(studSk) << " irasu faila nuskaityti uztruko:\t\t" << elapsed.count() << "\n";
-
-    skaicGal(studentai, 1);
-    rusiuok(studentai, 1);
-
-    start = high_resolution_clock::now();
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
-        }
-        else {
-            galvociai.push_back(stud);
-        }
-    }
-    end = high_resolution_clock::now();
-    elapsed = end - start;
-    cout << to_string(studSk) << " irasu skirstymas i dvi grupes uztruko:\t" << elapsed.count() << "\n";
-
-    start = high_resolution_clock::now();
-    isvestIFaila(vargsiukai, 1, "vargsiukai.txt");
-    end = high_resolution_clock::now();
-    elapsed = end - start;
-    cout << to_string(studSk) << " irasu vargsiuku irasymas i faila uztruko:\t" << elapsed.count() << "\n";
-
-    start = high_resolution_clock::now();
-    isvestIFaila(galvociai, 1, "galvociai.txt");
-    end = high_resolution_clock::now();
-    elapsed = end - start;
-    cout << to_string(studSk) << " irasu galvociu irasymas i faila uztruko:\t" << elapsed.count() << "\n";
-}
-
-void tirk(int studSk, int pazSk) {
-    auto start = high_resolution_clock::now();
-    kurkFaila(studSk, pazSk);
-
-    skirstyk(studSk);
-    auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << "\n" << to_string(studSk) << " irasu visas testas uztruko:\t\t" << elapsed.count() << "\n";
-}
-
-void tirkSkirstyma(vector<Studentas> &studentai) {
-    vector<Studentas> vargsiukai, galvociai;
-
+void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
     auto start = high_resolution_clock::now();
     for (const auto &stud : studentai) {
         if (stud.gal < 5) {
@@ -204,6 +153,6 @@ void tirkSkirstyma(vector<Studentas> &studentai) {
         }
     }
     auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << "Studentu skirstymas i dvi grupes uztruko: " << elapsed.count() << "\n";
+    auto elapsed = end - start;
+    cout << "Irasu skirstymas i dvi grupes uztruko: " << elapsed.count() << "\n";
 }

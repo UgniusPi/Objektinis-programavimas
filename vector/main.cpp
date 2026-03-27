@@ -14,7 +14,7 @@ int main() {
     srand(time(0));
 
     while (true) {
-        vector<Studentas> studentai;
+        vector<Studentas> studentai, vargsiukai, galvociai;
         Nustatymai nustatymai;
         bool testi, klaida;
         
@@ -43,14 +43,15 @@ int main() {
         }
         rusiuok(studentai, nustatymai.rusBudas);
 
-        tirkSkirstyma(studentai);
+        skirstyk(studentai, vargsiukai, galvociai);
 
         if (nustatymai.isvestVieta == 1) {
             isvestEkr(studentai, nustatymai.pasirink);
         }
         else {
-            cout << "Rezultatas rasomas i faila...\n";
-            isvestIFaila(studentai, nustatymai.pasirink);
+            cout << "Rezultatas rasomas i failus...\n";
+            isvestIFaila(vargsiukai, nustatymai.pasirink, "vargsiukai.txt");
+            isvestIFaila(galvociai, nustatymai.pasirink, "galvociai.txt");
             cout << "\n\n";
         }
     }
