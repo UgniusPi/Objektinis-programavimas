@@ -134,13 +134,15 @@ string kurkFaila(int studSk, int pazSk) {
     return failoKelias;
 }
 
-void skirstyk(const list<Studentas> &studentai, list<Studentas> &vargsiukai, list<Studentas> &galvociai) {
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
+void skirstyk(list<Studentas> &studentai, list<Studentas> &vargsiukai, list<Studentas> &galvociai) {
+    for (auto it = studentai.begin(); it != studentai.end(); ) {
+        if (it->gal < 5) {
+            vargsiukai.push_back(*it);
+            it = studentai.erase(it);
         }
         else {
-            galvociai.push_back(stud);
+            galvociai.push_back(*it);
+            ++it;
         }
     }
 }
