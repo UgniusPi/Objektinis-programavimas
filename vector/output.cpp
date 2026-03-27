@@ -138,6 +138,14 @@ string kurkFaila(int studSk, int pazSk) {
 
 // void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
 void skirstyk(vector<Studentas> &studentai, vector<Studentas> &vargsiukai) {
+    // for (const auto &stud : studentai) {
+    //     if (stud.gal < 5) {
+    //         vargsiukai.push_back(stud);
+    //     }
+    //     else {
+    //         galvociai.push_back(stud);
+    //     }
+    // }
     for (int i=0; i<studentai.size(); ) {
         if (studentai.at(i).gal < 5) {
             vargsiukai.push_back(studentai[i]);

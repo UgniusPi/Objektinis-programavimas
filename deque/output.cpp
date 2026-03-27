@@ -138,13 +138,23 @@ string kurkFaila(int studSk, int pazSk) {
     return failoKelias;
 }
 
-void skirstyk(const deque<Studentas> &studentai, deque<Studentas> &vargsiukai, deque<Studentas> &galvociai) {
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
+// void skirstyk(const deque<Studentas> &studentai, deque<Studentas> &vargsiukai, deque<Studentas> &galvociai) {
+void skirstyk(deque<Studentas> &studentai, deque<Studentas> &vargsiukai) {
+    // for (const auto &stud : studentai) {
+    //     if (stud.gal < 5) {
+    //         vargsiukai.push_back(stud);
+    //     }
+    //     else {
+    //         galvociai.push_back(stud);
+    //     }
+    // }
+    for (int i=0; i<studentai.size(); ) {
+        if (studentai.at(i).gal < 5) {
+            vargsiukai.push_back(studentai[i]);
+            studentai.erase(studentai.begin() + i);
         }
         else {
-            galvociai.push_back(stud);
+            ++i;
         }
     }
 }

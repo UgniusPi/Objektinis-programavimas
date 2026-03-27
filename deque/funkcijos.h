@@ -20,5 +20,6 @@ string rndVardas(int from, int to);
 void klauskEigos(bool &testi, Nustatymai &nustatymai);
 void rusiuok(deque<Studentas> &studentai, int rusBudas);
 string klauskFailo(bool &klaida);
+// void skirstyk(const deque<Studentas> &studentai, deque<Studentas> &vargsiukai, deque<Studentas> &galvociai);
+void skirstyk(deque<Studentas> &studentai, deque<Studentas> &vargsiukai);
 string kurkFaila(int studSk, int pazSk);
-void skirstyk(const deque<Studentas> &studentai, deque<Studentas> &vargsiukai, deque<Studentas> &galvociai);
