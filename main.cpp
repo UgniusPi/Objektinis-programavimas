@@ -43,6 +43,8 @@ int main() {
         }
         rusiuok(studentai, nustatymai.rusBudas);
 
+        tirkSkirstyma(studentai);
+
         if (nustatymai.isvestVieta == 1) {
             isvestEkr(studentai, nustatymai.pasirink);
         }
