@@ -19,8 +19,7 @@ int main() {
     srand(time(0));
 
     while (true) {
-        // deque<Studentas> studentai, vargsiukai, galvociai;
-        deque<Studentas> studentai, vargsiukai;
+        deque<Studentas> studentai, vargsiukai, galvociai;
         Nustatymai nustatymai;
 
         bool testi, klaida;
@@ -55,8 +54,7 @@ int main() {
         cout << "Studentu rusiavimas konteineryje uztruko: " << elapsed.count() << "\n";
 
         start = high_resolution_clock::now();
-        // skirstyk(studentai, vargsiukai, galvociai);
-        skirstyk(studentai, vargsiukai);
+        skirstyk(studentai, vargsiukai, galvociai);
         end = high_resolution_clock::now();
         elapsed = end - start;
         cout << "Studentu skirstymas i grupes uztruko: " << elapsed.count() << "\n";
@@ -67,8 +65,7 @@ int main() {
         else {
             cout << "Rezultatas rasomas i failus...\n";
             isvestIFaila(vargsiukai, nustatymai.pasirink, "vargsiukai.txt");
-            // isvestIFaila(galvociai, nustatymai.pasirink, "galvociai.txt");
-            isvestIFaila(studentai, nustatymai.pasirink, "galvociai.txt");
+            isvestIFaila(galvociai, nustatymai.pasirink, "galvociai.txt");
             cout << "\n\n";
         }
     }
