@@ -3,12 +3,15 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 #include "funkcijos.h"
 
 using std::string;
 using std::vector;
 using std::cout;
 using std::cin;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
 
 int main() {
     srand(time(0));
@@ -16,6 +19,7 @@ int main() {
     while (true) {
         vector<Studentas> studentai, vargsiukai, galvociai;
         Nustatymai nustatymai;
+
         bool testi, klaida;
         
         klauskEigos(testi, nustatymai);
@@ -29,21 +33,29 @@ int main() {
             if (klaida) return 1;
 
             cout << "Skaitomas failas...\n";
+            auto start = high_resolution_clock::now();
             ivestIsFailo(studentai, failoKelias, klaida);
+            auto end = high_resolution_clock::now();
+            duration<double> elapsed = end - start;
+            cout << "Duomenu nuskaitymas is failo i konteineri uztruko: " << elapsed.count() << "\n";
             if (klaida) return 1;
         }
         
-        if (nustatymai.isvestVieta == 2) {
-            cout << "Skaiciuojami studentu galutiniai balai...\n";
-        }
+        cout << "Skaiciuojami studentu galutiniai balai...\n";
         skaicGal(studentai, nustatymai.pasirink);
 
-        if (nustatymai.isvestVieta == 2) {
-            cout << "Rusiuojami studentai...\n";
-        }
+        cout << "Rusiuojami studentai...\n";
+        auto start = high_resolution_clock::now();
         rusiuok(studentai, nustatymai.rusBudas);
+        auto end = high_resolution_clock::now();
+        duration<double> elapsed = end - start;
+        cout << "Studentu rusiavimas konteineryje uztruko: " << elapsed.count() << "\n";
 
+        start = high_resolution_clock::now();
         skirstyk(studentai, vargsiukai, galvociai);
+        end = high_resolution_clock::now();
+        elapsed = end - start;
+        cout << "Studentu skirstymas i grupes uztruko: " << elapsed.count() << "\n";
 
         if (nustatymai.isvestVieta == 1) {
             isvestEkr(studentai, nustatymai.pasirink);
