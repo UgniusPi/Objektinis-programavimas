@@ -266,7 +266,7 @@ string klauskFailo(bool &klaida) {
     for (int i=0; i<failuPav.size(); i++) {
         cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << "\n";
     }
-    int ivestFailas = validRange(1, 4, "Pasirinkimas: ");
+    int ivestFailas = validRange(1, failuPav.size(), "Pasirinkimas: ");
     cout << "\n";
 
     return failuPav.at(ivestFailas - 1).string();
