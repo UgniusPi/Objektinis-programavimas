@@ -5,7 +5,6 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
-#include <chrono>
 #include <filesystem> 
 #include "funkcijos.h"
 
@@ -20,9 +19,7 @@ using std::setprecision;
 using std::fixed;
 using std::ofstream;
 using std::to_string;
-using std::chrono::high_resolution_clock;
-using std::chrono::duration;
-namespace fs = std::filesystem;
+using std::filesystem::create_directories;
 
 void isvestEkr(const vector<Studentas> &studentai, int pasirink) {
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
@@ -88,7 +85,7 @@ string rndVardas(int from, int to) {
 
 void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failoPav) {
     string failoKelias = "isvestis/" + failoPav;
-    fs::create_directories("isvestis");
+    create_directories("isvestis");
     ofstream file(failoKelias);
     string galTekstas = (pasirink == 1) ? "Galutinis (Vid.)" : "Galutinis (Med.)";
 
@@ -101,7 +98,6 @@ void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failo
 }
 
 void rusiuok(vector<Studentas> &studentai, int rusBudas) {
-    auto start = high_resolution_clock::now();
     if (rusBudas == 1) {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.vard < b.vard; });
@@ -114,13 +110,9 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
     }
-    auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << "Vector konteinerio duomenu rusiavimas uztruko: " << elapsed.count() << "\n";
 }
 
 string kurkFaila(int studSk, int pazSk) {
-    auto start = high_resolution_clock::now();
     string failoPav = "stud" + to_string(studSk) + ".txt";
     string failoKelias = "ivestis/" + failoPav;
     ofstream file(failoKelias);
@@ -139,15 +131,11 @@ string kurkFaila(int studSk, int pazSk) {
         }
         file << right << setw(10) << to_string(rand() % 10 + 1) << "\n";
     }
-    auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << to_string(studSk) << " irasu faila sukurti uztruko: " << elapsed.count() << "\n";
 
     return failoKelias;
 }
 
 void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
-    auto start = high_resolution_clock::now();
     for (const auto &stud : studentai) {
         if (stud.gal < 5) {
             vargsiukai.push_back(stud);
@@ -156,7 +144,4 @@ void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai,
             galvociai.push_back(stud);
         }
     }
-    auto end = high_resolution_clock::now();
-    auto elapsed = end - start;
-    cout << "Irasu skirstymas i dvi grupes uztruko: " << elapsed.count() << "\n";
 }
