@@ -97,6 +97,7 @@ void isvestIFaila(const vector<Studentas> &studentai, int pasirink, string failo
 }
 
 void rusiuok(vector<Studentas> &studentai, int rusBudas) {
+    auto start = high_resolution_clock::now();
     if (rusBudas == 1) {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.vard < b.vard; });
@@ -109,6 +110,9 @@ void rusiuok(vector<Studentas> &studentai, int rusBudas) {
         sort(studentai.begin(), studentai.end(),
             [](const Studentas &a, const Studentas &b) { return a.gal > b.gal; });
     }
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << "Vector konteinerio duomenu rusiavimas uztruko: " << elapsed.count() << "\n";
 }
 
 void kurkFaila(int studSk, int pazSk) {

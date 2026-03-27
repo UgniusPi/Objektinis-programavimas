@@ -12,12 +12,6 @@ using std::cin;
 
 int main() {
     srand(time(0));
-    bool tirti = true;
-
-    if (tirti) {
-        tirk(1000, 10);
-        return 0;
-    }
 
     while (true) {
         vector<Studentas> studentai;

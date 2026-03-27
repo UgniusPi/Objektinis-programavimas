@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem> 
+#include <chrono>
 #include "funkcijos.h"
 
 using std::string;
@@ -21,6 +22,8 @@ using std::stringstream;
 using std::filesystem::path;
 using std::filesystem::directory_iterator;
 using std::exception;
+using std::chrono::duration;
+using std::chrono::high_resolution_clock;
 
 void ivestEkr(vector<Studentas> &studentai, bool rndPaz, bool rndVard) {
     int studSk = validInput("Iveskite studentu skaiciu: ");
@@ -190,6 +193,7 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
         return;
     }
 
+    auto start = high_resolution_clock::now();
     buffer << file.rdbuf();  
 
     getline(buffer, line);
@@ -238,6 +242,9 @@ void ivestIsFailo(vector<Studentas> &studentai, string failoPav,  bool &klaida) 
 
         studentai.push_back(naujasStud);
     }
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << "Duomenis is failo i vector konteineri irasyti uztruko: " << elapsed.count() << "\n";
 }
 
 string klauskFailo(bool &klaida) {
