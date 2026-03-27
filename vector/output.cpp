@@ -136,13 +136,10 @@ string kurkFaila(int studSk, int pazSk) {
     return failoKelias;
 }
 
-void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
-        }
-        else {
-            galvociai.push_back(stud);
-        }
-    }
+void skirstyk(vector<Studentas> &studentai, vector<Studentas> &vargsiukai) {
+    auto mid = std::partition(studentai.begin(), studentai.end(),
+                              [](const Studentas &s){ return s.gal < 5; });
+
+    vargsiukai.assign(studentai.begin(), mid);
+    studentai.erase(studentai.begin(), mid);
 }
