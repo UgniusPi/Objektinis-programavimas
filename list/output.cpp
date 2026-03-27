@@ -137,10 +137,22 @@ string kurkFaila(int studSk, int pazSk) {
 
 // void skirstyk(const list<Studentas> &studentai, list<Studentas> &vargsiukai, list<Studentas> &galvociai) {
 void skirstyk(list<Studentas> &studentai, list<Studentas> &vargsiukai) {
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
-            studentai.remove(stud);
+    // for (const auto &stud : studentai) {
+    //     if (stud.gal < 5) {
+    //         vargsiukai.push_back(stud);
+    //         studentai.remove(stud)
+    //     }
+    //     else {
+    //         galvociai.push_back(stud);
+    //     }
+    // }
+    for (auto it = studentai.begin(); it != studentai.end(); ) {
+        if (it->gal < 5) {
+            vargsiukai.push_back(*it);
+            it = studentai.erase(it);
+        }
+        else {
+            ++it;
         }
     }
 }
