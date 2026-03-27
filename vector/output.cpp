@@ -137,8 +137,7 @@ string kurkFaila(int studSk, int pazSk) {
 }
 
 void skirstyk(vector<Studentas> &studentai, vector<Studentas> &vargsiukai) {
-    auto mid = std::partition(studentai.begin(), studentai.end(),
-                              [](const Studentas &s){ return s.gal < 5; });
+    auto mid = std::stable_partition(studentai.begin(), studentai.end(), [](const Studentas &s){ return s.gal < 5; });
 
     vargsiukai.assign(studentai.begin(), mid);
     studentai.erase(studentai.begin(), mid);
