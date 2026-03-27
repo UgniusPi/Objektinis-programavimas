@@ -135,13 +135,15 @@ string kurkFaila(int studSk, int pazSk) {
     return failoKelias;
 }
 
-void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
-    for (const auto &stud : studentai) {
-        if (stud.gal < 5) {
-            vargsiukai.push_back(stud);
+// void skirstyk(const vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &galvociai) {
+void skirstyk(vector<Studentas> &studentai, vector<Studentas> &vargsiukai) {
+    for (int i=0; i<studentai.size(); ) {
+        if (studentai.at(i).gal < 5) {
+            vargsiukai.push_back(studentai[i]);
+            studentai.erase(studentai.begin() + i);
         }
         else {
-            galvociai.push_back(stud);
+            ++i;
         }
     }
 }
