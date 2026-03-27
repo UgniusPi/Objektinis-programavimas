@@ -117,6 +117,7 @@ void rusiuok(deque<Studentas> &studentai, int rusBudas) {
 string kurkFaila(int studSk, int pazSk) {
     string failoPav = "stud" + to_string(studSk) + ".txt";
     string failoKelias = "ivestis/" + failoPav;
+    create_directories("ivestis");
     ofstream file(failoKelias);
 
     file << left << setw(16) << "Vardas" << right << setw(16) << "Pavarde" << setw(13) << " ";

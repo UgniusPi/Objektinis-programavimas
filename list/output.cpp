@@ -114,6 +114,7 @@ void rusiuok(list<Studentas> &studentai, int rusBudas) {
 string kurkFaila(int studSk, int pazSk) {
     string failoPav = "stud" + to_string(studSk) + ".txt";
     string failoKelias = "ivestis/" + failoPav;
+    create_directories("ivestis");
     ofstream file(failoKelias);
 
     file << left << setw(16) << "Vardas" << right << setw(16) << "Pavarde" << setw(13) << " ";
@@ -134,15 +135,13 @@ string kurkFaila(int studSk, int pazSk) {
     return failoKelias;
 }
 
-void skirstyk(list<Studentas> &studentai, list<Studentas> &vargsiukai, list<Studentas> &galvociai) {
-    for (auto it = studentai.begin(); it != studentai.end(); ) {
-        if (it->gal < 5) {
-            vargsiukai.push_back(*it);
-            it = studentai.erase(it);
+void skirstyk(const list<Studentas> &studentai, list<Studentas> &vargsiukai, list<Studentas> &galvociai) {
+    for (const auto &stud : studentai) {
+        if (stud.gal < 5) {
+            vargsiukai.push_back(stud);
         }
         else {
-            galvociai.push_back(*it);
-            ++it;
+            galvociai.push_back(stud);
         }
     }
 }
