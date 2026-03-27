@@ -5,7 +5,6 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem> 
-#include <chrono>
 #include <list>
 #include "funkcijos.h"
 
@@ -23,8 +22,6 @@ using std::stringstream;
 using std::filesystem::path;
 using std::filesystem::directory_iterator;
 using std::exception;
-using std::chrono::duration;
-using std::chrono::high_resolution_clock;
 using std::list;
 
 void ivestEkr(list<Studentas> &studentai, bool rndPaz, bool rndVard) {
@@ -86,7 +83,7 @@ bool isInt(string inp) {
         }
     }
     
-    return inp.length() != 0 && inp.length() <= 4;
+    return inp.length() != 0 && inp.length() <= 10;
 }
 
 int validInput(string prompt) {
@@ -183,8 +180,8 @@ void klauskEigos(bool &testi, Nustatymai &nustatymai) {
     return;
 }
 
-void ivestIsFailo(list<Studentas> &studentai, string failoPav,  bool &klaida) {
-    ifstream file(failoPav);
+void ivestIsFailo(list<Studentas> &studentai, string failoKelias,  bool &klaida) {
+    ifstream file(failoKelias);
     stringstream buffer;
     string line;
     klaida = false;
@@ -195,11 +192,9 @@ void ivestIsFailo(list<Studentas> &studentai, string failoPav,  bool &klaida) {
         return;
     }
 
-    auto start = high_resolution_clock::now();
     buffer << file.rdbuf();  
 
     getline(buffer, line);
-    
     while (getline(buffer, line)) {
         stringstream ss(line);
         Studentas naujasStud;
@@ -244,9 +239,6 @@ void ivestIsFailo(list<Studentas> &studentai, string failoPav,  bool &klaida) {
 
         studentai.push_back(naujasStud);
     }
-    auto end = high_resolution_clock::now();
-    duration<double> elapsed = end - start;
-    cout << "Duomenis is failo i list konteineri irasyti uztruko: " << elapsed.count() << "\n";
 }
 
 string klauskFailo(bool &klaida) {
@@ -268,8 +260,18 @@ string klauskFailo(bool &klaida) {
     for (int i=0; i<failuPav.size(); i++) {
         cout << to_string(i + 1) << ". " << failuPav.at(i).filename().string() << "\n";
     }
-    int ivestFailas = validRange(1, failuPav.size(), "Pasirinkimas: ");
+    cout << to_string(failuPav.size() + 1) << ". " << "Sugeneruoti faila\n";
+    int ivestFailas = validRange(1, failuPav.size() + 1, "Pasirinkimas: ");
     cout << "\n";
 
-    return failuPav.at(ivestFailas - 1).string();
+    if (ivestFailas == failuPav.size() + 1) {
+        int studSk = validInput("Iveskite studentu skaiciu: ");
+        int pazSk = validInput("Iveskite pazymiu skaiciu: ");
+        
+        return kurkFaila(studSk, pazSk);
+    }
+    else {
+        return failuPav.at(ivestFailas - 1).string();
+    }
+    
 }
