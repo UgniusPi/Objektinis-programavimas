@@ -190,3 +190,20 @@ void tirk(int studSk, int pazSk) {
     duration<double> elapsed = end - start;
     cout << "\n" << to_string(studSk) << " irasu visas testas uztruko:\t\t" << elapsed.count() << "\n";
 }
+
+void tirkSkirstyma(vector<Studentas> &studentai) {
+    vector<Studentas> vargsiukai, galvociai;
+
+    auto start = high_resolution_clock::now();
+    for (const auto &stud : studentai) {
+        if (stud.gal < 5) {
+            vargsiukai.push_back(stud);
+        }
+        else {
+            galvociai.push_back(stud);
+        }
+    }
+    auto end = high_resolution_clock::now();
+    duration<double> elapsed = end - start;
+    cout << "Studentu skirstymas i dvi grupes uztruko: " << elapsed.count() << "\n";
+}

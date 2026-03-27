@@ -21,3 +21,4 @@ string klauskFailo(bool &klaida);
 void kurkFaila(int studSk, int pazSk);
 void skirstyk(int studSk);
 void tirk(int studSk, int pazSk);
+void tirkSkirstyma(vector<Studentas> &studentai);
